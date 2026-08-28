@@ -15,3 +15,7 @@ npm run dev
 
 output a local link (usually http://localhost:5173)
 launches site
+
+
+OR JUST USE 
+https://sign-bridge-ifnova.vercel.app/

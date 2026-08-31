@@ -1,0 +1,2108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SignBridge — Multilingual Sign ⇄ Speech & ISL Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;600&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600&family=Noto+Sans+Gurmukhi:wght@400;600&family=Noto+Sans+Kannada:wght@400;600&family=Noto+Sans+Malayalam:wght@400;600&family=Noto+Sans+Oriya:wght@400;600&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#050607;
+    --panel:#0b0e10;
+    --panel-2:#0f1315;
+    --panel-3:#151b1e;
+    --line:#1b2124;
+    --line-active:#2c393e;
+    --cyan:#5eead4;
+    --cyan-dim:#2a5f56;
+    --cyan-glow:rgba(94,234,212,0.3);
+    --coral:#ff8a5c;
+    --coral-dim:#6d3b27;
+    --text:#eef4f3;
+    --text-dim:#8ba3a0;
+    --text-faint:#526462;
+    --danger:#ff6b6b;
+    --gold:#fbbf24;
+    --radius:14px;
+    --radius-sm:8px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', 'Noto Sans Devanagari', 'Noto Sans Tamil', 'Noto Sans Bengali', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Noto Sans Malayalam', 'Noto Sans Gujarati', 'Noto Sans Gurmukhi', 'Noto Sans Oriya', 'Noto Sans Arabic', system-ui, sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .display{font-family:'Space Grotesk',sans-serif;}
+
+  body::before{
+    content:"";
+    position:fixed; inset:0; pointer-events:none; z-index:999;
+    background:repeating-linear-gradient(
+      to bottom,
+      rgba(94,234,212,0.012) 0px,
+      rgba(94,234,212,0.012) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  }
+
+  .app{
+    max-width:1260px;
+    margin:0 auto;
+    padding:20px 20px 60px;
+  }
+
+  header.top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:16px;
+    margin-bottom:18px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .brand-mark{
+    width:42px;height:42px;
+    border-radius:11px;
+    background:linear-gradient(135deg,var(--cyan),var(--coral));
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;
+    box-shadow:0 0 24px var(--cyan-glow);
+  }
+  .brand h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:22px;
+    font-weight:700;
+    letter-spacing:0.01em;
+    margin:0;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .brand .tag-pill{
+    font-size:10px;
+    font-family:'IBM Plex Mono',monospace;
+    background:rgba(94,234,212,0.12);
+    color:var(--cyan);
+    padding:3px 8px;
+    border-radius:12px;
+    border:1px solid var(--cyan-dim);
+    font-weight:600;
+  }
+  .brand small{
+    display:block;
+    color:var(--text-dim);
+    font-size:12px;
+    font-weight:500;
+    margin-top:2px;
+  }
+
+  .back-home-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--text-dim);
+    padding:7px 14px;
+    border-radius:8px;
+    font-size:12.5px;
+    font-weight:600;
+    text-decoration:none;
+    transition:all .15s ease;
+  }
+  .back-home-btn:hover{
+    color:var(--cyan);
+    border-color:var(--cyan-dim);
+    background:var(--panel-3);
+  }
+
+  .lang-bar{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:10px 16px;
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .lang-bar-title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:'Space Grotesk',sans-serif;
+    font-size:13px;
+    font-weight:600;
+    color:var(--text-dim);
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+  .lang-selectors{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .lang-select-group{
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .lang-select-group label{
+    font-size:11px;
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--text-faint);
+    text-transform:uppercase;
+  }
+  select.lang-dropdown{
+    appearance:none;
+    background:var(--panel-2);
+    color:var(--text);
+    border:1px solid var(--line);
+    border-radius:var(--radius-sm);
+    padding:7px 28px 7px 11px;
+    font-size:12.5px;
+    font-weight:500;
+    font-family:inherit;
+    cursor:pointer;
+    outline:none;
+    min-width:140px;
+    transition:border-color .15s ease;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%235eead4' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:calc(100% - 10px) center;
+  }
+  select.lang-dropdown:focus{border-color:var(--cyan); box-shadow:0 0 0 1px var(--cyan-dim);}
+  
+  button.swap-btn{
+    appearance:none;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--cyan);
+    width:32px; height:32px;
+    border-radius:8px;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    font-size:13px;
+    transition:all .15s ease;
+  }
+  button.swap-btn:hover{background:var(--panel-3); border-color:var(--cyan-dim); transform:scale(1.06);}
+
+  nav.tabs{
+    display:flex;
+    gap:6px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:5px;
+    flex-wrap:wrap;
+  }
+  nav.tabs button{
+    appearance:none;
+    border:none;
+    background:transparent;
+    color:var(--text-dim);
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:12.5px;
+    letter-spacing:0.02em;
+    padding:8px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:all .18s ease;
+    white-space:nowrap;
+  }
+  nav.tabs button:hover{color:var(--text);}
+  nav.tabs button.active{
+    background:var(--panel-2);
+    color:var(--cyan);
+    box-shadow:inset 0 0 0 1px var(--cyan-dim);
+  }
+
+  .panel{display:none;}
+  .panel.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+
+  .stage-wrap{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px;
+  }
+  .stage-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .stage-head h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:15px;
+    letter-spacing:0.08em;
+    margin:0;
+    color:var(--text);
+  }
+  .stage-head .sub{
+    font-size:12px;
+    color:var(--text-faint);
+    font-family:'IBM Plex Mono',monospace;
+  }
+
+  .stage{
+    position:relative;
+    background:#000;
+    border-radius:10px;
+    overflow:hidden;
+    aspect-ratio:16/10;
+    width:100%;
+    border:1px solid var(--line);
+  }
+  .stage canvas{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+  }
+  .stage .hud{
+    position:absolute; inset:0;
+    pointer-events:none;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:14px;
+  }
+  .hud-row{display:flex; justify-content:space-between; align-items:flex-start;}
+  .badge{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.05em;
+    color:var(--cyan);
+    background:rgba(94,234,212,0.08);
+    border:1px solid var(--cyan-dim);
+    padding:4px 9px;
+    border-radius:20px;
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+  }
+  .badge.warn{color:var(--coral); border-color:var(--coral-dim); background:rgba(255,138,92,0.08);}
+  .badge.gold{color:var(--gold); border-color:#856404; background:rgba(251,191,36,0.08);}
+  .badge.dev-badge{
+    background:rgba(255,138,92,0.12);
+    border-color:var(--coral);
+    color:var(--coral);
+    font-weight:600;
+    letter-spacing:0.08em;
+  }
+  .badge.pulse-cyan{
+    color:var(--cyan);
+    background:rgba(94,234,212,0.12);
+    border:1px solid var(--cyan);
+    font-weight:600;
+    letter-spacing:0.08em;
+    animation:cyanBadgePulse 2s infinite ease-in-out;
+  }
+  @keyframes cyanBadgePulse {
+    0%, 100% { box-shadow: 0 0 6px rgba(94,234,212,0.3), 0 0 0 0 rgba(94,234,212,0.4); }
+    50% { box-shadow: 0 0 16px rgba(94,234,212,0.6), 0 0 0 5px rgba(94,234,212,0); }
+  }
+
+  .status-line{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--text-dim);
+  }
+  .confidence{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--text-dim);
+    text-align:right;
+  }
+  .confidence b{color:var(--cyan); font-size:13px;}
+
+  .onboard{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:14px;
+    background:radial-gradient(circle at center, rgba(94,234,212,0.05), transparent 70%);
+    text-align:center;
+    padding:20px;
+    z-index:10;
+  }
+  .onboard p{color:var(--text-dim); font-size:13px; max-width:340px; margin:0;}
+
+  button.primary{
+    appearance:none;
+    border:none;
+    cursor:pointer;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:13px;
+    letter-spacing:0.02em;
+    padding:11px 20px;
+    border-radius:10px;
+    background:var(--cyan);
+    color:#04211d;
+    box-shadow:0 0 20px rgba(94,234,212,0.22);
+    transition:transform .12s ease, box-shadow .12s ease;
+    pointer-events:all;
+  }
+  button.primary:hover{transform:translateY(-1px); box-shadow:0 0 26px rgba(94,234,212,0.38);}
+  button.primary:active{transform:translateY(0);}
+
+  button.ghost{
+    appearance:none;
+    border:1px solid var(--line);
+    background:var(--panel-2);
+    color:var(--text-dim);
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:12.5px;
+    padding:10px 16px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button.ghost:hover{color:var(--text); border-color:var(--cyan-dim);}
+
+  .control-row{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-top:14px;
+    flex-wrap:wrap;
+  }
+
+  .readout-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:14px;
+  }
+  @media (max-width:768px){ .readout-grid{grid-template-columns:1fr;} }
+
+  .readout{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+    position:relative;
+  }
+  .readout.accent{
+    border-color:var(--cyan-dim);
+    background:rgba(94,234,212,0.02);
+  }
+  .readout .label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:0.1em;
+    color:var(--text-faint);
+    margin-bottom:6px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .readout .recognized-text{
+    font-size:22px;
+    font-weight:600;
+    color:var(--text);
+    min-height:34px;
+    word-break:break-word;
+    line-height:1.35;
+  }
+  .readout .recognized-text.empty{color:var(--text-faint); font-weight:400; font-size:14.5px;}
+  .readout .trans-badge{
+    font-size:9.5px;
+    color:var(--cyan);
+    background:rgba(94,234,212,0.1);
+    padding:2px 6px;
+    border-radius:4px;
+    font-weight:500;
+  }
+
+  /* Under Development Preview Panels */
+  .dev-preview-card{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:36px 30px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  }
+  .dev-preview-card::before{
+    content:"";
+    position:absolute;
+    top:0; left:0; right:0;
+    height:2px;
+    background:linear-gradient(90deg, transparent, var(--cyan), transparent);
+  }
+  .dev-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-bottom:14px;
+  }
+  .dev-title{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:26px;
+    font-weight:700;
+    color:var(--text);
+    margin:0;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .dev-message{
+    font-size:14.5px;
+    color:var(--text-dim);
+    line-height:1.65;
+    max-width:760px;
+    margin-bottom:24px;
+  }
+  .dev-section-title{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:0.08em;
+    color:var(--cyan);
+    text-transform:uppercase;
+    margin-bottom:14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .feature-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    gap:12px;
+    margin-bottom:28px;
+  }
+  .feature-card{
+    background:var(--panel-3);
+    border:1px solid var(--line);
+    border-radius:var(--radius-sm);
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:13.5px;
+    color:var(--text);
+    transition:all .18s ease;
+  }
+  .feature-card:hover{
+    border-color:var(--cyan-dim);
+    background:rgba(94,234,212,0.03);
+    transform:translateY(-2px);
+    box-shadow:0 4px 14px rgba(0,0,0,0.3);
+  }
+  .feature-card .bullet-icon{
+    width:22px; height:22px;
+    border-radius:6px;
+    background:rgba(94,234,212,0.1);
+    color:var(--cyan);
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px;
+    font-weight:700;
+    flex-shrink:0;
+    border:1px solid var(--cyan-dim);
+  }
+
+  /* Quick Signs & Library Grid */
+  .quick-shelf{
+    margin-bottom:20px;
+  }
+  .shelf-title{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--text-faint);
+    margin-bottom:8px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    text-transform:uppercase;
+  }
+  .quick-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(130px, 1fr));
+    gap:8px;
+  }
+  .quick-card{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px;
+    cursor:pointer;
+    transition:all .15s ease;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    position:relative;
+  }
+  .quick-card:hover{
+    border-color:var(--cyan);
+    background:var(--panel-3);
+    transform:translateY(-2px);
+    box-shadow:0 0 12px rgba(94,234,212,0.25);
+  }
+  .quick-card .q-title{font-size:13px; font-weight:600; color:var(--text); margin-bottom:2px;}
+  .quick-card .q-trans{font-size:11px; color:var(--cyan); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .quick-card .q-yt{font-size:9.5px; color:var(--text-faint); margin-top:4px; font-family:'IBM Plex Mono',monospace;}
+  .quick-card:hover .q-yt{color:var(--cyan);}
+
+  /* Category Filter Pills */
+  .cat-pills{
+    display:flex;
+    gap:6px;
+    overflow-x:auto;
+    padding-bottom:10px;
+    margin-bottom:16px;
+  }
+  .cat-pill{
+    appearance:none;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--text-dim);
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    cursor:pointer;
+    white-space:nowrap;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    transition:all .15s ease;
+  }
+  .cat-pill:hover{color:var(--text); border-color:var(--cyan-dim);}
+  .cat-pill.active{background:rgba(94,234,212,0.1); border-color:var(--cyan); color:var(--cyan); font-weight:600;}
+
+  /* Sign Cards Grid (Learning Cards) */
+  .sign-cards-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
+    gap:14px;
+    max-height:560px;
+    overflow-y:auto;
+    padding-right:4px;
+  }
+  .sign-card{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    cursor:pointer;
+    transition:all .2s ease;
+    position:relative;
+  }
+  .sign-card:hover{
+    border-color:var(--cyan);
+    background:var(--panel-3);
+    transform:translateY(-3px);
+    box-shadow:0 6px 20px rgba(0,0,0,0.5), 0 0 16px rgba(94,234,212,0.2);
+  }
+  .sign-card-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:6px;
+  }
+  .sign-card-title{
+    font-size:16px;
+    font-weight:700;
+    color:var(--text);
+    font-family:'Space Grotesk',sans-serif;
+  }
+  .sign-card-trans{
+    font-size:12.5px;
+    color:var(--cyan);
+    font-weight:500;
+    margin-bottom:8px;
+  }
+  .sign-card-desc{
+    font-size:12px;
+    color:var(--text-dim);
+    line-height:1.45;
+    margin-bottom:12px;
+    flex-grow:1;
+  }
+  .sign-card-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-top:1px solid rgba(255,255,255,0.05);
+    padding-top:10px;
+    margin-top:auto;
+  }
+  .yt-learn-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    font-family:'Space Grotesk',sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    color:var(--cyan);
+    background:rgba(94,234,212,0.08);
+    border:1px solid var(--cyan-dim);
+    padding:5px 10px;
+    border-radius:6px;
+    transition:all .2s ease;
+    box-shadow:0 0 8px rgba(94,234,212,0.1);
+  }
+  .sign-card:hover .yt-learn-badge{
+    background:var(--cyan);
+    color:#04211d;
+    box-shadow:0 0 14px rgba(94,234,212,0.45);
+    border-color:var(--cyan);
+  }
+
+  .search-input-wrap{
+    margin-bottom:14px;
+    position:relative;
+  }
+  .search-input-wrap input{
+    width:100%;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:10px;
+    color:var(--text);
+    padding:12px 16px 12px 38px;
+    font-size:14px;
+    outline:none;
+    font-family:inherit;
+    transition:border-color .15s ease;
+  }
+  .search-input-wrap input:focus{border-color:var(--cyan);}
+  .search-input-wrap .search-icon{
+    position:absolute;
+    left:14px; top:50%;
+    transform:translateY(-50%);
+    color:var(--text-faint);
+  }
+
+  /* Direct Translator Workbench Tab */
+  .trans-bench{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    margin-top:14px;
+  }
+  @media (max-width:768px){ .trans-bench{grid-template-columns:1fr;} }
+
+  .trans-box{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius-sm);
+    padding:14px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .trans-box-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .trans-box textarea, .trans-box .output-area{
+    width:100%;
+    min-height:120px;
+    background:var(--panel-3);
+    border:1px solid var(--line);
+    border-radius:8px;
+    color:var(--text);
+    padding:12px;
+    font-size:15px;
+    font-family:inherit;
+    resize:vertical;
+    outline:none;
+    line-height:1.5;
+  }
+  .trans-box textarea:focus{border-color:var(--cyan);}
+  .trans-box .output-area{
+    overflow-y:auto;
+    white-space:pre-wrap;
+    word-break:break-word;
+    background:rgba(94,234,212,0.03);
+    border-color:var(--cyan-dim);
+  }
+  .trans-box .output-area.empty{color:var(--text-faint);}
+  .quick-phrases{
+    margin-top:14px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .quick-chip{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--text-dim);
+    font-size:12px;
+    padding:5px 11px;
+    border-radius:16px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .quick-chip:hover{
+    border-color:var(--cyan-dim);
+    color:var(--cyan);
+  }
+
+  footer.note{
+    margin-top:34px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    color:var(--text-faint);
+    font-size:12px;
+    line-height:1.6;
+  }
+  footer.note b{color:var(--text-dim);}
+
+  .toast{
+    position:fixed;
+    bottom:22px; left:50%;
+    transform:translateX(-50%);
+    background:var(--panel-2);
+    border:1px solid var(--cyan-dim);
+    color:var(--text);
+    padding:11px 18px;
+    border-radius:10px;
+    font-size:13px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.6);
+    opacity:0; pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+    z-index:1000;
+    max-width:90vw;
+    text-align:center;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(-6px);}
+
+  [dir="rtl"]{text-align:right;}
+
+  @media (prefers-reduced-motion: reduce){
+    .panel.active{animation:none;}
+    .badge.pulse-cyan{animation:none;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brand">
+      <div class="brand-mark">🤟</div>
+      <div>
+        <h1>SignBridge <span class="tag-pill">INDIAN SIGN LANGUAGE (ISL)</span></h1>
+        <small>Real-Time Multilingual ISL Sign ⇄ Speech & Communication Platform</small>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+      <a href="index.html" class="back-home-btn">← Back to Home</a>
+      <nav class="tabs">
+        <button class="tab-btn active" data-tab="sign2text">SIGN → TEXT</button>
+        <button class="tab-btn" data-tab="speech2sign">SPEECH → SIGN</button>
+        <button class="tab-btn" data-tab="live">LIVE CONVERSATION</button>
+        <button class="tab-btn" data-tab="explorer">📚 ISL LIBRARY</button>
+        <button class="tab-btn" data-tab="translator">🌐 TRANSLATOR</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MULTILINGUAL CONTROL BAR -->
+  <div class="lang-bar">
+    <div class="lang-bar-title">
+      <span>🌐 Multilingual Engine</span>
+      <span class="badge" id="trans-engine-badge">ISL + 22 INDIC LANGS</span>
+    </div>
+    <div class="lang-selectors">
+      <div class="lang-select-group">
+        <label for="global-src-lang">From</label>
+        <select id="global-src-lang" class="lang-dropdown"></select>
+      </div>
+      <button class="swap-btn" id="swap-lang-btn" title="Swap Languages">⇄</button>
+      <div class="lang-select-group">
+        <label for="global-tgt-lang">To</label>
+        <select id="global-tgt-lang" class="lang-dropdown"></select>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 1: SIGN -> TEXT -->
+  <section class="panel active" id="tab-sign2text">
+    <div class="stage-wrap">
+      <div class="stage-head">
+        <h2>SIGN → MULTILINGUAL TEXT & SPEECH</h2>
+        <span class="sub">camera → on-device landmarks → gesture match → Indic translation → TTS</span>
+      </div>
+      <div class="stage" data-role="cam-stage-1">
+        <canvas class="hand-canvas"></canvas>
+        <div class="hud">
+          <div class="hud-row">
+            <span class="badge cam-status">CAMERA OFF</span>
+            <div class="confidence"><span class="conf-label">AI CONFIDENCE</span><br><b class="conf-value">—</b></div>
+          </div>
+          <div class="status-line sign-status">Detecting sign…</div>
+        </div>
+        <div class="onboard cam-onboard">
+          <p>Privacy First: Hand tracking runs 100% on-device via MediaPipe. No video leaves your computer.</p>
+          <button class="primary" data-action="start-camera">▶ ENABLE CAMERA</button>
+        </div>
+      </div>
+      <div class="control-row">
+        <button class="primary" data-action="speak-recognized">🔊 SPEAK TRANSLATION</button>
+        <button class="ghost" data-action="clear-recognized">CLEAR</button>
+      </div>
+      
+      <div class="readout-grid">
+        <div class="readout">
+          <div class="label">
+            <span>DETECTED SIGN (ENGLISH)</span>
+            <span class="trans-badge">ORIGINAL</span>
+          </div>
+          <div class="recognized-text empty" data-role="recognized-raw-1">Waiting for a sign…</div>
+        </div>
+        <div class="readout accent">
+          <div class="label">
+            <span>TRANSLATED OUTPUT</span>
+            <span class="trans-badge" id="sign-target-badge">HINDI — हिन्दी</span>
+          </div>
+          <div class="recognized-text empty" data-role="recognized-trans-1">अनुवाद की प्रतीक्षा है…</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 2: SPEECH -> SIGN (UNDER DEVELOPMENT) -->
+  <section class="panel" id="tab-speech2sign">
+    <div class="stage-wrap">
+      <div class="dev-preview-card">
+        <div class="dev-header">
+          <h2 class="dev-title">🎙️ Speech → Sign</h2>
+          <span class="badge dev-badge">UNDER DEVELOPMENT</span>
+        </div>
+        <p class="dev-message">
+          This module is currently being upgraded to support realistic Indian Sign Language sentence generation with smoother hand movements, larger vocabulary, and multilingual speech recognition.
+        </p>
+
+        <div class="dev-section-title">✨ COMING SOON FEATURES:</div>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="bullet-icon">✓</div>
+            <span>Realistic ISL hand animations.</span>
+          </div>
+          <div class="feature-card">
+            <div class="bullet-icon">✓</div>
+            <span>Continuous sentence signing.</span>
+          </div>
+          <div class="feature-card">
+            <div class="bullet-icon">✓</div>
+            <span>22+ Indian language speech support.</span>
+          </div>
+          <div class="feature-card">
+            <div class="bullet-icon">✓</div>
+            <span>Improved gesture transitions.</span>
+          </div>
+          <div class="feature-card">
+            <div class="bullet-icon">✓</div>
+            <span>Faster recognition engine.</span>
+          </div>
+        </div>
+
+        <div>
+          <button class="primary" id="btn-back-to-sign2text">← Back to Sign → Text</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 3: LIVE CONVERSATION (COMING SOON) -->
+  <section class="panel" id="tab-live">
+    <div class="stage-wrap">
+      <div class="dev-preview-card">
+        <div class="dev-header">
+          <h2 class="dev-title">💬 Live Conversation</h2>
+          <span class="badge pulse-cyan">COMING SOON</span>
+        </div>
+        <p class="dev-message">
+          A real-time two-way communication mode where speech and Indian Sign Language are translated simultaneously during live conversations.
+        </p>
+
+        <div class="dev-section-title">✨ PLANNED FEATURES:</div>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="bullet-icon">✦</div>
+            <span>Sign → Text in real time.</span>
+          </div>
+          <div class="feature-card">
+            <div class="bullet-icon">✦</div>
+            <span>Speech → ISL in real time.</span>
+          </div>
+          <div class="feature-card">
+            <div class="bullet-icon">✦</div>
+            <span>Conversation transcript.</span>
+          </div>
+          <div class="feature-card">
+            <div class="bullet-icon">✦</div>
+            <span>Speaker separation.</span>
+          </div>
+          <div class="feature-card">
+            <div class="bullet-icon">✦</div>
+            <span>Offline compatible mode.</span>
+          </div>
+          <div class="feature-card">
+            <div class="bullet-icon">✦</div>
+            <span>Multilingual conversation support.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 4: ISL SIGN EXPLORER & LEARNING LIBRARY -->
+  <section class="panel" id="tab-explorer">
+    <div class="stage-wrap">
+      <div class="stage-head">
+        <h2>INDIAN SIGN LANGUAGE (ISL) LEARNING LIBRARY</h2>
+        <span class="sub">Authentic ISL Reference • Two-Handed Fingerspelling • Click any sign to learn with video tutorials</span>
+      </div>
+
+      <!-- Pinned Quick Signs Shelf -->
+      <div class="quick-shelf">
+        <div class="shelf-title">⭐ QUICK SIGNS (CRITICAL EVERYDAY ACCESS — CLICK TO LEARN):</div>
+        <div class="quick-grid" id="quick-signs-grid"></div>
+      </div>
+
+      <!-- Search Input -->
+      <div class="search-input-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="isl-search-input" placeholder="Search ISL signs in English, Hindi (पानी), Tamil (தண்ணீர்), synonyms, or letters...">
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="cat-pills" id="cat-pills-container"></div>
+
+      <!-- Signs Grid -->
+      <div class="sign-cards-grid" id="sign-cards-grid"></div>
+    </div>
+  </section>
+
+  <!-- TAB 5: DIRECT TRANSLATOR WORKBENCH -->
+  <section class="panel" id="tab-translator">
+    <div class="stage-wrap">
+      <div class="stage-head">
+        <h2>MULTILINGUAL INDIC TRANSLATION WORKBENCH</h2>
+        <span class="sub">Neural translation across all 22 Constitutionally Recognized Indian Languages + English</span>
+      </div>
+
+      <div class="trans-bench">
+        <div class="trans-box">
+          <div class="trans-box-head">
+            <span class="badge" id="bench-src-badge">SOURCE</span>
+            <button class="ghost" id="bench-clear-btn" style="padding:4px 10px; font-size:11px;">CLEAR</button>
+          </div>
+          <textarea id="bench-input" placeholder="Type or paste any Indian language text, phrase, or sentence here..."></textarea>
+          <div class="control-row" style="margin-top:0;">
+            <button class="primary" id="bench-translate-btn">TRANSLATE</button>
+            <button class="ghost" id="bench-mic-btn">🎙 SPEAK INPUT</button>
+          </div>
+        </div>
+
+        <div class="trans-box">
+          <div class="trans-box-head">
+            <span class="badge gold" id="bench-tgt-badge">TRANSLATION</span>
+            <button class="ghost" id="bench-copy-btn" style="padding:4px 10px; font-size:11px;">COPY</button>
+          </div>
+          <div class="output-area empty" id="bench-output">Translation will appear here...</div>
+          <div class="control-row" style="margin-top:0;">
+            <button class="primary" id="bench-speak-btn">🔊 SPEAK OUTPUT</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px;">
+        <span class="sub mono" style="color:var(--text-dim);">PRACTICAL ISL CONVERSATION PHRASES:</span>
+        <div class="quick-phrases">
+          <div class="quick-chip" data-phrase="I need water">"I need water"</div>
+          <div class="quick-chip" data-phrase="Please help me">"Please help me"</div>
+          <div class="quick-chip" data-phrase="Where is the bathroom?">"Where is the bathroom?"</div>
+          <div class="quick-chip" data-phrase="What is your name?">"What is your name?"</div>
+          <div class="quick-chip" data-phrase="I am hungry">"I am hungry"</div>
+          <div class="quick-chip" data-phrase="Where is the hospital?">"Where is the hospital?"</div>
+          <div class="quick-chip" data-phrase="I do not understand">"I don't understand"</div>
+          <div class="quick-chip" data-phrase="Thank you very much">"Thank you very much"</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="note">
+    <b>SignBridge Indian Sign Language (ISL) Standard.</b> Primary sign language standards are curated according to Indian Sign Language (ISL) two-handed alphabet and regional syntax.
+    All on-device hand gesture recognition runs client-side in WebAssembly/WebGL. Supports 22 Eighth Schedule Indian Languages + English.
+  </footer>
+</div>
+
+<video id="webcam" autoplay playsinline muted style="display:none"></video>
+<div class="toast" data-role="toast"></div>
+
+<!-- Self-contained complete script: 100% synchronous bootstrap, zero CORS/module issues -->
+<script>
+let HandLandmarker = null;
+let FilesetResolver = null;
+
+/* =======================================================================
+   INDIAN LANGUAGES CONFIGURATION & METADATA (22 CONSTITUTIONAL + ENGLISH)
+======================================================================= */
+const INDIAN_LANGUAGES = [
+  { code:'en',  name:'English',            native:'English',           srCode:'en-IN', ttsCode:'en-IN', dir:'ltr' },
+  { code:'hi',  name:'Hindi',              native:'हिन्दी',             srCode:'hi-IN', ttsCode:'hi-IN', dir:'ltr' },
+  { code:'bn',  name:'Bengali',            native:'বাংলা',              srCode:'bn-IN', ttsCode:'bn-IN', dir:'ltr' },
+  { code:'te',  name:'Telugu',             native:'తెలుగు',            srCode:'te-IN', ttsCode:'te-IN', dir:'ltr' },
+  { code:'mr',  name:'Marathi',            native:'मराठी',             srCode:'mr-IN', ttsCode:'mr-IN', dir:'ltr' },
+  { code:'ta',  name:'Tamil',              native:'தமிழ்',             srCode:'ta-IN', ttsCode:'ta-IN', dir:'ltr' },
+  { code:'gu',  name:'Gujarati',           native:'ગુજરાતી',           srCode:'gu-IN', ttsCode:'gu-IN', dir:'ltr' },
+  { code:'kn',  name:'Kannada',            native:'ಕನ್ನಡ',             srCode:'kn-IN', ttsCode:'kn-IN', dir:'ltr' },
+  { code:'ml',  name:'Malayalam',          native:'മലയാളം',           srCode:'ml-IN', ttsCode:'ml-IN', dir:'ltr' },
+  { code:'pa',  name:'Punjabi',            native:'ਪੰਜਾਬੀ',            srCode:'pa-IN', ttsCode:'pa-IN', dir:'ltr' },
+  { code:'or',  name:'Odia',               native:'ଓଡ଼ିଆ',             srCode:'or-IN', ttsCode:'or-IN', dir:'ltr' },
+  { code:'as',  name:'Assamese',           native:'অসমীয়া',           srCode:'as-IN', ttsCode:'as-IN', dir:'ltr' },
+  { code:'ur',  name:'Urdu',               native:'اردو',              srCode:'ur-IN', ttsCode:'ur-IN', dir:'rtl' },
+  { code:'sa',  name:'Sanskrit',           native:'संस्कृतम्',          srCode:'sa-IN', ttsCode:'hi-IN', dir:'ltr' },
+  { code:'mai', name:'Maithili',           native:'मैथिली',            srCode:'mai-IN',ttsCode:'hi-IN', dir:'ltr' },
+  { code:'sat', name:'Santali',            native:'ᱥᱟᱱᱛᱟᱲᱤ',          srCode:'sat-IN',ttsCode:'en-IN', dir:'ltr' },
+  { code:'ks',  name:'Kashmiri',           native:'कॉशुर / کٲشُر',      srCode:'ks-IN', ttsCode:'ur-IN', dir:'rtl' },
+  { code:'ne',  name:'Nepali',             native:'नेपाली',            srCode:'ne-NP', ttsCode:'ne-NP', dir:'ltr' },
+  { code:'sd',  name:'Sindhi',             native:'سنڌي / सिन्धी',     srCode:'sd-IN', ttsCode:'hi-IN', dir:'rtl' },
+  { code:'kok', name:'Konkani',            native:'कोंकणी',            srCode:'kok-IN',ttsCode:'mr-IN', dir:'ltr' },
+  { code:'doi', name:'Dogri',              native:'डोगरी',             srCode:'doi-IN',ttsCode:'hi-IN', dir:'ltr' },
+  { code:'brx', name:'Bodo',               native:'बर\'',              srCode:'brx-IN',ttsCode:'as-IN', dir:'ltr' },
+  { code:'mni', name:'Manipuri (Meitei)',  native:'মৈতৈলোন্',         srCode:'mni-IN',ttsCode:'bn-IN', dir:'ltr' }
+];
+
+const OFFLINE_DICTIONARY = {
+  "HELLO": {
+    en: "Hello", hi: "नमस्ते", bn: "হ্যালো / নমস্কার", te: "హలో / నమస్కారం", mr: "नमस्कार",
+    ta: "வணக்கம்", gu: "નમસ્તે", kn: "ನಮಸ್ಕಾರ", ml: "ഹലോ / നമസ്കാരം", pa: "ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ",
+    or: "ନମସ୍କାର", as: "নমস্কাৰ", ur: "سلام / ہیلو", sa: "नमस्ते", mai: "प्रणाम",
+    sat: "ᱡᱚᱦᱟᱨ", ks: "سلام", ne: "नमस्ते", sd: "سلام", kok: "नमस्कार",
+    doi: "नमस्ते", brx: "खुलुमबाय", mni: "খুরুমজরি"
+  },
+  "THANK YOU": {
+    en: "Thank you", hi: "धन्यवाद", bn: "ধন্যবাদ", te: "ధన్యవాదాలు", mr: "धन्यवाद",
+    ta: "நன்றி", gu: "આભાર", kn: "ಧನ್ಯವಾದಗಳು", ml: "നന്ദി", pa: "ਧੰਨਵਾਦ",
+    or: "ଧନ୍ୟବାଦ", as: "ধন্যবাদ", ur: "شکریہ", sa: "धन्यवादः", mai: "धन्यवाद",
+    sat: "ᱥᱟᱨᱦᱟᱣ", ks: "شکریہ", ne: "धन्यवाद", sd: "مهرباني", kok: "देव बरे करूं",
+    doi: "धन्यवाद", brx: "साबाईखर", mni: "থাগৎচরি"
+  },
+  "YES": {
+    en: "Yes", hi: "हाँ", bn: "হ্যাঁ", te: "అవును", mr: "होय",
+    ta: "ஆம் / சரி", gu: "હા", kn: "ಹೌದು", ml: "അതെ", pa: "ਹਾਂ",
+    or: "ହଁ", as: "হয়", ur: "ہاں", sa: "आम्", mai: "हँ",
+    sat: "ᱦᱮᱸ", ks: "آ", ne: "हो", sd: "ها", kok: "हय",
+    doi: "हाँ", brx: "नंगौ", mni: "হোয়"
+  },
+  "NO": {
+    en: "No", hi: "नहीं", bn: "না", te: "ಕಾದು / లేదు", mr: "नाही",
+    ta: "இல்லை", gu: "ના", kn: "ಇಲ್ಲ", ml: "അല്ല / ಇಲ್ಲ", pa: "ਨਹੀਂ",
+    or: "ନା", as: "নহয়", ur: "نہیں", sa: "न", mai: "नहि",
+    sat: "ᱵᱟᱝ", ks: "نہ", ne: "होइन", sd: "نہ", kok: "ना",
+    doi: "नेईं", brx: "नङा", mni: "নত্তে"
+  },
+  "HELP": {
+    en: "Help", hi: "मदद", bn: "সাহায্য", te: "సహాయం", mr: "मदत",
+    ta: "உதவி", gu: "મદદ", kn: "ಸಹಾಯ", ml: "സഹായം", pa: "ਮਦਦ",
+    or: "ସାହାଯ୍ୟ", as: "সহায়", ur: "مدد", sa: "साहाय्यम्", mai: "मदति",
+    sat: "ᱜᱚᱲᱚ", ks: "مدد", ne: "मद्दत", sd: "مدد", kok: "मजत",
+    doi: "मदद", brx: "मदद", mni: "মতেং"
+  },
+  "WATER": {
+    en: "Water", hi: "पानी", bn: "জল / पानी", te: "నీరు / మంచినీళ్లు", mr: "पाणी",
+    ta: "தண்ணீர்", gu: "પાણી", kn: "ನೀರು", ml: "വെള്ളം", pa: "ਪାਣੀ",
+    or: "ପାଣି", as: "পানী", ur: "پانی", sa: "जलम्", mai: "पानि",
+    sat: "ᱫᱟᱜ", ks: "آب", ne: "पानी", sd: "پاڻي", kok: "उदक",
+    doi: "पाणी", brx: "दै", mni: "ঈশিং"
+  },
+  "FOOD": {
+    en: "Food", hi: "खाना / भोजन", bn: "খাবার", te: "ఆహారం / భోజనం", mr: "अन्न / जेवण",
+    ta: "உணவு", gu: "ખોરાક / જમવાનું", kn: "ಆಹಾರ / ಊಟ", ml: "ഭക്ഷണം", pa: "ਖਾਣਾ",
+    or: "ଖାଦ୍ୟ", as: "খাদ্য / ভাত", ur: "کھانا", sa: "भोजनम्", mai: "भोजन",
+    sat: "ᱡᱚᱢᱟᱜ", ks: "کھین", ne: "खाना", sd: "کاڌو", kok: "जेवण",
+    doi: "रोटी / खाना", brx: "जाग्रा", mni: "চাক"
+  },
+  "WHERE": {
+    en: "Where", hi: "कहाँ", bn: "কোথায়", te: "ఎక్కడ", mr: "कुठे",
+    ta: "எங்கே", gu: "ક્યાં", kn: "ಎಲ್ಲಿ", ml: "એവിടെ", pa: "ਕਿੱਥੇ",
+    or: "କେଉଁଠି", as: "ক’ত", ur: "کہاں", sa: "कुत्र", mai: "कतय",
+    sat: "ᱚᱠᱟᱨᱮ", ks: "کتی", ne: "कहाँ", sd: "ڪٿي", kok: "खंय",
+    doi: "कुत्थे", brx: "बहा", mni: "কদাইদা"
+  },
+  "HOW ARE YOU": {
+    en: "How are you", hi: "आप कैसे हैं?", bn: "আপনি কেমন আছেন?", te: "మీరు ఎలా ఉన్నారు?", mr: "तुम्ही कसे आहात?",
+    ta: "நீங்கள் எப்படி இருக்கிறீர்கள்?", gu: "તમે કેમ છો?", kn: "ನೀವು ಹೇಗಿದ್ದೀರಿ?", ml: "സുഖമാണോ?", pa: "ਤੁਸੀਂ ਕਿਵੇਂ ਹੋ?",
+    or: "ଆପଣ କେମିତି ଅଛନ୍ତି?", as: "আপুনি কেনে আছে?", ur: "آپ کیسے ہیں؟", sa: "भवान् कथमस्ति?", mai: "अहाँ कते छी?",
+    sat: "ᱪᱮᱫ ᱞᱮᱠᱟ ᱢᱮᱱᱟᱜ ᱵᱤᱱᱟ?", ks: "توہی چھوا وارَہ؟", ne: "तपाईंलाई कस्तो छ?", sd: "توهان ڪيئن آهيو؟", kok: "तुम्ही कसे आसात?",
+    doi: "तुसें दा केह् हाल ऐ?", brx: "नोंथाङा माबोरै दं?", mni: "নখোয় করি তৌরিगे?"
+  },
+  "I AM FINE": {
+    en: "I am fine", hi: "मैं ठीक हूँ", bn: "আমি ভালো আছি", te: "నేను బాగున్నాను", mr: "मी ठीक आहे",
+    ta: "நான் நலமாக இருக்கிறேன்", gu: "હું મજામાં છું", kn: "ನಾನು ಆರಾಮಾಗಿದ್ದೇನೆ", ml: "എനിക്ക് സുഖമാണ്", pa: "ਮੈਂ ਠੀਕ ਹਾਂ",
+    or: "ମୁଁ ଭଲ ଅଛି", as: "মই ভালে আছোঁ", ur: "میں ٹھیک ہوں", sa: "अहं कुशलः अस्मि", mai: "हम नीक छी",
+    sat: "ᱤᱧ ᱱᱟᱯᱟᱭ ᱜᱮ ᱢᱤᱱᱟᱹᱧᱟ", ks: "بہٕ چھُس ٹھیک", ne: "म सन्चै छु", sd: "মান ٺيڪ آهيان", kok: "हांव बरो आसां",
+    doi: "मैं ठीक आं", brx: "आं मोजां दं", mni: "ঐ নুংঙাইরি"
+  },
+  "I LOVE YOU": {
+    en: "I love you", hi: "मैं आपसे प्यार करता हूँ", bn: "আমি তোমাকে ভালোবাসি", te: "నేను నిన్ను ప్రేమిస్తున్నాను", mr: "माझे तुमच्यावर प्रेम आहे",
+    ta: "நான் உன்னை காதலிக்கிறேன்", gu: "હું તમને પ્રેમ કરું છું", kn: "ನಾನು ನಿನ್ನನ್ನು ಪ್ರೀತಿಸುತ್ತೇನೆ", ml: "ഞാൻ നിന്നെ സ്നേಹിക്കുന്നു", pa: "ਮੈਂ ਤੈਨੂੰ ਪਿਆਰ ਕਰਦਾ ਹਾਂ",
+    or: "ମୁଁ ତୁମକୁ ଭଲପାଏ", as: "মই তোমাক ভাল পাওঁ", ur: "मुझे آپ سے محبت ہے", sa: "अहं त्वां कामयामि", mai: "हम अहाँ सं प्रेम करैत छी",
+    sat: "ᱤᱧ ᱟᱢᱤᱧ ᱫᱩᱞᱟᱹᱲᱮᱫ ᱢᱮᱭᱟ", ks: "مےٚ چھُ چےٚ سۭتۍ پیار", ne: "म तिमीलाई माया गर्छु", sd: "مان تو سان پيار ڪريان ٿو", kok: "हांव तुजेर मोग करतां",
+    doi: "मैं तुंदे कन्नै प्यार करदा", brx: "आं नोंखौ मोजां मोनो", mni: "ঐহাক্না নখোয়বু নুংশি"
+  }
+};
+
+const transCache = new Map();
+
+async function translateText(text, srcLang = 'en', tgtLang = 'hi') {
+  if (!text || !text.trim()) return '';
+  srcLang = srcLang.toLowerCase();
+  tgtLang = tgtLang.toLowerCase();
+  if (srcLang === tgtLang) return text.trim();
+
+  const cleanText = text.trim();
+  const cacheKey = `${srcLang}:${tgtLang}:${cleanText.toLowerCase()}`;
+  if (transCache.has(cacheKey)) return transCache.get(cacheKey);
+
+  const upper = cleanText.toUpperCase().replace(/[.,!?]/g, '');
+  if (OFFLINE_DICTIONARY[upper] && OFFLINE_DICTIONARY[upper][tgtLang]) {
+    const res = OFFLINE_DICTIONARY[upper][tgtLang];
+    transCache.set(cacheKey, res);
+    return res;
+  }
+
+  for (const [key, langMap] of Object.entries(OFFLINE_DICTIONARY)) {
+    if (langMap[srcLang] && langMap[srcLang].toLowerCase() === cleanText.toLowerCase()) {
+      if (langMap[tgtLang]) {
+        const res = langMap[tgtLang];
+        transCache.set(cacheKey, res);
+        return res;
+      }
+    }
+  }
+
+  try {
+    const gtxUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${encodeURIComponent(srcLang)}&tl=${encodeURIComponent(tgtLang)}&dt=t&q=${encodeURIComponent(cleanText)}`;
+    const resp = await fetch(gtxUrl);
+    if (resp.ok) {
+      const data = await resp.json();
+      if (data && data[0]) {
+        const translated = data[0].map(chunk => chunk[0]).filter(Boolean).join('');
+        if (translated) {
+          transCache.set(cacheKey, translated);
+          return translated;
+        }
+      }
+    }
+  } catch (err) {}
+
+  try {
+    const myMemoryUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(cleanText)}&langpair=${srcLang}|${tgtLang}`;
+    const resp = await fetch(myMemoryUrl);
+    if (resp.ok) {
+      const data = await resp.json();
+      if (data && data.responseData && data.responseData.translatedText) {
+        const translated = data.responseData.translatedText;
+        transCache.set(cacheKey, translated);
+        return translated;
+      }
+    }
+  } catch (err) {}
+
+  return cleanText;
+}
+
+/* =======================================================================
+   ISL KNOWLEDGE BASE & LEARNING DIRECTORY
+======================================================================= */
+const ISL_CATEGORIES = [
+  { id: 'all',          name: 'All Signs',            icon: '✨', count: 0 },
+  { id: 'quick',        name: 'Quick & Pinned',       icon: '⭐', count: 0 },
+  { id: 'basic',        name: 'Basic Communication',  icon: '🗣️', count: 0 },
+  { id: 'personal',     name: 'Personal & Family',    icon: '👨‍👩‍👧', count: 0 },
+  { id: 'questions',    name: 'Questions',            icon: '❓', count: 0 },
+  { id: 'food_drink',   name: 'Food & Drink',         icon: '🍎', count: 0 },
+  { id: 'health',       name: 'Health & Medical',     icon: '🏥', count: 0 },
+  { id: 'emergency',    name: 'Emergency & Safety',   icon: '🚨', count: 0 },
+  { id: 'emotions',     name: 'Emotions & Feelings',  icon: '❤️', count: 0 },
+  { id: 'school',       name: 'School & Learning',    icon: '🎓', count: 0 },
+  { id: 'places',       name: 'Places & Travel',      icon: '📍', count: 0 },
+  { id: 'alphabet',     name: 'ISL Alphabet (A–Z)',   icon: '🔤', count: 26 },
+  { id: 'numbers',      name: 'ISL Numbers (0–9)',    icon: '🔢', count: 10 }
+];
+
+const ISL_REGISTRY = [
+  {
+    id: "isl_hello", word: "HELLO", label: "Hello / Namaste", category: "basic", standard: "ISL", hands: 2, isQuick: true,
+    description: "Both hands in open palm, brought together in front of chest in respectful Namaste gesture.",
+    translations: { hi: "नमस्ते", ta: "வணக்கம்", bn: "নমস্কার", te: "నమస్కారం", mr: "नमस्कार", gu: "નમસ્તે", kn: "ನಮಸ್ಕಾರ", ml: "നമസ്കാരം", ur: "سلام" },
+    synonyms: ["hi", "namaste", "vanakkam", "namaskaram", "greetings", "pranam"]
+  },
+  {
+    id: "isl_goodbye", word: "GOODBYE", label: "Goodbye / Bye", category: "basic", standard: "ISL", hands: 1,
+    description: "Dominant hand raised to shoulder height, open palm facing forward, fingers bending repeatedly.",
+    translations: { hi: "अलविदा", ta: "போய் வருகிறேன்", bn: "বিদায়", te: "వీడ్కోలు", mr: "निरोप", gu: "આવજો", kn: "ಹೋಗಿಬರುತ್ತೇನೆ", ml: "വിട", ur: "الوداع" },
+    synonyms: ["bye", "see you", "alvida", "tata"]
+  },
+  {
+    id: "isl_yes", word: "YES", label: "Yes / Correct", category: "basic", standard: "ISL", hands: 1, isQuick: true,
+    description: "Dominant hand formed into a thumbs-up fist, nodding up and down twice at wrist like a head nod.",
+    translations: { hi: "हाँ", ta: "ஆம்", bn: "হ্যাঁ", te: "అవును", mr: "होय", gu: "હા", kn: "ಹೌದು", ml: "അതെ", ur: "ہاں" },
+    synonyms: ["haan", "aam", "avunu", "correct", "agree", "sure", "ok"]
+  },
+  {
+    id: "isl_no", word: "NO", label: "No / Disagree", category: "basic", standard: "ISL", hands: 1, isQuick: true,
+    description: "Index finger or closed hand with side-to-side sweeping motion indicating negation.",
+    translations: { hi: "नहीं", ta: "இல்லை", bn: "না", te: "కాదు", mr: "नाही", gu: "ના", kn: "ಇಲ್ಲ", ml: "അല്ല", ur: "نہیں" },
+    synonyms: ["nahi", "illa", "kaadu", "nah", "never", "disagree"]
+  },
+  {
+    id: "isl_please", word: "PLEASE", label: "Please / Request", category: "basic", standard: "ISL", hands: 2, isQuick: true,
+    description: "Both hands held in front with palms upward, slight forward bowing motion requesting assistance.",
+    translations: { hi: "कृपया", ta: "தயவுசெய்து", bn: "দয়া করে", te: "దయచేసి", mr: "कृपया", gu: "કૃપા કરીને", kn: "ದಯವಿಟ್ಟು", ml: "ദയವాయి", ur: "براہ کرم" },
+    synonyms: ["request", "kindly", "kripya", "dayavittu"]
+  },
+  {
+    id: "isl_thank_you", word: "THANK YOU", label: "Thank You / Thanks", category: "basic", standard: "ISL", hands: 1, isQuick: true,
+    description: "Fingertips of dominant flat hand touch chin, then move forward toward recipient with open palm.",
+    translations: { hi: "धन्यवाद", ta: "நன்றி", bn: "ধন্যবাদ", te: "ధన్యవాదాలు", mr: "धन्यवाद", gu: "આભાર", kn: "ಧನ್ಯವಾದಗಳು", ml: "നന്ദി", ur: "شکریہ" },
+    synonyms: ["thanks", "dhanyavad", "nandri", "shukriya", "grateful"]
+  },
+  {
+    id: "isl_sorry", word: "SORRY", label: "Sorry / Apology", category: "basic", standard: "ISL", hands: 1, isQuick: true,
+    description: "Dominant hand formed into a closed fist rotates in a small circular motion over center of chest.",
+    translations: { hi: "माफ़ कीजिए", ta: "மன்னிக்கவும்", bn: "দুঃখিত", te: "క్షమించండి", mr: "माफ करा", gu: "માફ કરશો", kn: "ಕ್ಷಮಿಸಿ", ml: "ക്ഷമിക്കണം", ur: "معاف کیجئے" },
+    synonyms: ["apology", "forgive me", "maaf", "mannikkavum"]
+  },
+  {
+    id: "isl_help", word: "HELP", label: "Help / Assist", category: "basic", standard: "ISL", hands: 2, isQuick: true,
+    description: "Dominant fist rests on open flat non-dominant palm; both hands lift upward together.",
+    translations: { hi: "मदद", ta: "உதவி", bn: "সাহায্য", te: "సహాయం", mr: "मदत", gu: "મદદ", kn: "ಸಹಾಯ", ml: "സಹಾಯം", ur: "مدد" },
+    synonyms: ["assist", "madad", "uthavi", "sahayam", "emergency assist"]
+  },
+  {
+    id: "isl_stop", word: "STOP", label: "Stop / Halt", category: "basic", standard: "ISL", hands: 1, isQuick: true,
+    description: "Dominant open hand with palm facing forward pushed outward firmly to indicate halting.",
+    translations: { hi: "रुको / रुकिए", ta: "நிறுத்து", bn: "থামুন", te: "ఆగండి", mr: "थांबा", gu: "ઊભા રહો", kn: "ನಿಲ್ಲಿಸಿ", ml: "നിർത്തുക", ur: "روکیں" },
+    synonyms: ["halt", "ruko", "niruthu", "pause", "wait"]
+  },
+  {
+    id: "isl_i_me", word: "I", label: "I / Me / Myself", category: "personal", standard: "ISL", hands: 1, isQuick: true,
+    description: "Dominant index finger points directly to center of own chest.",
+    translations: { hi: "मैं", ta: "நான்", bn: "আমি", te: "నేను", mr: "मी", gu: "હું", kn: "ನಾನು", ml: "ഞാൻ", ur: "میں" },
+    synonyms: ["me", "myself", "main", "naan", "nenu"]
+  },
+  {
+    id: "isl_you", word: "YOU", label: "You", category: "personal", standard: "ISL", hands: 1, isQuick: true,
+    description: "Dominant index finger points outward toward the person being addressed.",
+    translations: { hi: "आप / तुम", ta: "நீங்கள்", bn: "আপনি / তুমি", te: "మీరు / నువ్వు", mr: "तुम्ही / तू", gu: "તમે", kn: "ನೀವು", ml: "നിങ്ങൾ", ur: "آپ / تم" },
+    synonyms: ["aap", "tum", "neenga", "meeru"]
+  },
+  {
+    id: "isl_name", word: "NAME", label: "Name", category: "personal", standard: "ISL", hands: 2, isQuick: true,
+    description: "Index and middle fingers of both hands extended, tapping together crosswise in front of chest.",
+    translations: { hi: "नाम", ta: "பெயர்", bn: "নাম", te: "పేరు", mr: "नाव", gu: "નામ", kn: "ಹೆಸರು", ml: "പേര്", ur: "نام" },
+    synonyms: ["naam", "peyar", "peru", "identity"]
+  },
+  {
+    id: "isl_what", word: "WHAT", label: "What?", category: "questions", standard: "ISL", hands: 2, isQuick: true,
+    description: "Both hands held open in front with palms up, moving slightly side to side.",
+    translations: { hi: "क्या?", ta: "என்ன?", bn: "কী?", te: "ఏమిటి?", mr: "काय?", gu: "શું?", kn: "ಏನು?", ml: "എന്ത്?", ur: "کیا؟" },
+    synonyms: ["kya", "enna", "emiti", "kaay"]
+  },
+  {
+    id: "isl_where", word: "WHERE", label: "Where?", category: "questions", standard: "ISL", hands: 1, isQuick: true,
+    description: "Index finger pointed up, shaking side to side with questioning expression.",
+    translations: { hi: "कहाँ?", ta: "எங்கே?", bn: "কোথায়?", te: "ఎక్కడ?", mr: "कुठे?", gu: "ક્યાં?", kn: "ಎಲ್ಲಿ?", ml: "എവിടെ?", ur: "کہاں؟" },
+    synonyms: ["kahan", "engae", "ekkada", "kuthe", "evide"]
+  },
+  {
+    id: "isl_water", word: "WATER", label: "Water / Drinking Water", category: "food_drink", standard: "ISL", hands: 1, isQuick: true,
+    description: "C-shaped hand tilted toward mouth simulating drinking from a cup.",
+    translations: { hi: "पानी", ta: "தண்ணீர்", bn: "জল", te: "నీరు", mr: "पाणी", gu: "પાણી", kn: "ನೀರು", ml: "വെള്ളം", ur: "پانی" },
+    synonyms: ["pani", "thanneer", "neeru", "vellam", "jal", "drink water"]
+  },
+  {
+    id: "isl_food", word: "FOOD", label: "Food / Meal", category: "food_drink", standard: "ISL", hands: 1, isQuick: true,
+    description: "Fingertips of dominant hand brought together and tapped lightly against lips twice.",
+    translations: { hi: "खाना / भोजन", ta: "உணவு", bn: "খাবার", te: "ఆహారం", mr: "जेवण", gu: "ખોરાક", kn: "ಆಹಾರ", ml: "ഭക്ഷണം", ur: "کھانا" },
+    synonyms: ["eat", "meal", "khana", "unavu", "aaharam", "bhojan"]
+  },
+  {
+    id: "isl_hungry", word: "HUNGRY", label: "Hungry", category: "food_drink", standard: "ISL", hands: 1, isQuick: true,
+    description: "C-shaped hand moves downward along center of chest to stomach.",
+    translations: { hi: "भूख लगी है", ta: "பசிக்கிறது", bn: "ক্ষুধা", te: "ఆకలి", mr: "भूक लागली", gu: "ભૂખ લાગી છે", kn: "ಹಸಿವು", ml: "വിಶക്കുന്നു", ur: "بھوک" },
+    synonyms: ["starving", "bhookh", "pasikuthu", "aakali"]
+  },
+  {
+    id: "isl_doctor", word: "DOCTOR", label: "Doctor / Physician", category: "health", standard: "ISL", hands: 2, isQuick: true,
+    description: "Dominant index and middle fingers tap the inner pulse/wrist of non-dominant extended arm.",
+    translations: { hi: "डॉक्टर / चिकित्सक", ta: "மருத்துவர்", bn: "ডাক্তার", te: "డాక్టర్ / వైద్యుడు", mr: "डॉक्टर / वैद्य", gu: "ડોક્ટર", kn: "ವೈದ್ಯರು", ml: "ഡോക്ടർ", ur: "ڈاکٹر" },
+    synonyms: ["doc", "physician", "vaidya", "maruthuvar"]
+  },
+  {
+    id: "isl_hospital", word: "HOSPITAL", label: "Hospital", category: "health", standard: "ISL", hands: 2, isQuick: true,
+    description: "Dominant index and middle fingers draw a Red Cross (+) on upper non-dominant arm/shoulder.",
+    translations: { hi: "अस्पताल", ta: "மருத்துவமனை", bn: "হাসপাতাল", te: "ఆసుపత్రి", mr: "रुग्णालय", gu: "હોસ્પિટલ", kn: "ಆಸ್ಪತ್ರೆ", ml: "ആശുപത്രി", ur: "ہسپتال" },
+    synonyms: ["clinic", "aspatal", "maruthuvamanai", "aasupathri"]
+  },
+  {
+    id: "isl_emergency", word: "EMERGENCY", label: "Emergency / Urgent", category: "emergency", standard: "ISL", hands: 1, isQuick: true,
+    description: "Dominant hand in E-shape waving rapidly side-to-side with urgency.",
+    translations: { hi: "आपातकाल / ज़रूरी", ta: "அவசரம்", bn: "জরুরি অবস্থা", te: "అత్యవసరం", mr: "तातडीचे", gu: "કટોકટી", kn: "ತುರ್ತು", ml: "അടിയന്തിരം", ur: "ایمرجنسی" },
+    synonyms: ["urgent", "danger", "awasaram", "atyavasaram"]
+  },
+  {
+    id: "isl_police", word: "POLICE", label: "Police", category: "emergency", standard: "ISL", hands: 1, isQuick: true,
+    description: "C-shaped hand touches shoulder indicating police badge on uniform.",
+    translations: { hi: "पुलिस", ta: "காவல்துறை", bn: "পুলিশ", te: "പോലീసు", mr: "पोलीस", gu: "પોલીસ", kn: "ಪೊಲೀಸ್", ml: "പോലീസ്", ur: "پولیس" },
+    synonyms: ["cop", "police officer", "thana"]
+  },
+  {
+    id: "isl_home", word: "HOME", label: "Home / House", category: "places", standard: "ISL", hands: 2, isQuick: true,
+    description: "Fingertips of both flat angled hands meet at top forming a roof shape (^) in front of chest.",
+    translations: { hi: "घर", ta: "வீடு", bn: "বাড়ি", te: "ఇల్లు", mr: "घर", gu: "ઘર", kn: "ಮನೆ", ml: "വീട്", ur: "گھر" },
+    synonyms: ["house", "ghar", "veedu", "illu", "residence"]
+  },
+  {
+    id: "isl_bathroom", word: "BATHROOM", label: "Bathroom / Toilet", category: "places", standard: "ISL", hands: 1, isQuick: true,
+    description: "Dominant hand forms T-shape and shakes side to side gently.",
+    translations: { hi: "शौचालय / बाथरूम", ta: "கழிப்பறை", bn: "শৌচাগার", te: "మరుగుదొడ్డి", mr: "शौचालय", gu: "શૌચાલય", kn: "ಶೌಚಾಲಯ", ml: "ശൗചാലയം", ur: "بیت الخلاء" },
+    synonyms: ["toilet", "washroom", "restroom", "lavatory"]
+  }
+];
+
+// Add complete ISL Alphabet A-Z
+const ISL_ALPHABET_DESCS = {
+  A: "Dominant index touches thumb tip of open non-dominant hand.",
+  B: "Both hands join thumbs and fingers together forming two circles.",
+  C: "Dominant hand forms curved 'C' shape in air.",
+  D: "Dominant index and thumb form circle, touching non-dominant index held upright.",
+  E: "Dominant index finger touches index fingertip of open non-dominant hand.",
+  F: "Dominant index and middle fingers lay across non-dominant index and middle.",
+  G: "Both closed fists held together with one on top of the other.",
+  H: "Dominant flat palm brushes horizontally across non-dominant flat palm.",
+  I: "Dominant index finger touches middle fingertip of open non-dominant hand.",
+  J: "Dominant index touches middle fingertip and draws a J-hook curve down.",
+  K: "Dominant index finger bends at knuckle against side of non-dominant upright index.",
+  L: "Dominant index and thumb form an 'L' shape held against non-dominant palm.",
+  M: "Dominant three fingers (index, middle, ring) placed on non-dominant palm.",
+  N: "Dominant two fingers (index, middle) placed on non-dominant flat palm.",
+  O: "Dominant index finger touches ring fingertip of open non-dominant hand.",
+  P: "Dominant index and thumb circle touches upright non-dominant index finger.",
+  Q: "Non-dominant thumb and index form circle, dominant index hooks through.",
+  R: "Dominant hooked index finger touches non-dominant palm.",
+  S: "Pinky fingers of both hands hooked together.",
+  T: "Dominant index finger taps edge/side of non-dominant flat hand.",
+  U: "Dominant index finger touches pinky fingertip of open non-dominant hand.",
+  V: "Dominant hand forms 'V' on non-dominant palm.",
+  W: "Fingers of both open hands interlocked with thumbs free.",
+  X: "Index fingers of both hands crossed forming an 'X'.",
+  Y: "Dominant index finger placed between thumb and index of open non-dominant hand.",
+  Z: "Dominant angled hand bent horizontally touching non-dominant palm."
+};
+
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(char => {
+  ISL_REGISTRY.push({
+    id: `isl_letter_${char.toLowerCase()}`,
+    word: char,
+    label: `Letter '${char}' (ISL Fingerspelling)`,
+    category: "alphabet",
+    standard: "ISL",
+    hands: 2,
+    description: ISL_ALPHABET_DESCS[char] || `ISL standard two-handed letter ${char}.`,
+    translations: { hi: `अक्षर ${char}`, ta: `எழுத்து ${char}`, bn: `অক্ষর ${char}`, te: `అక్షరం ${char}`, ur: `حرف ${char}` },
+    synonyms: [`letter ${char.toLowerCase()}`, char.toLowerCase()]
+  });
+});
+
+// Add ISL Numbers 0-9
+"0123456789".split("").forEach(digit => {
+  ISL_REGISTRY.push({
+    id: `isl_num_${digit}`,
+    word: digit,
+    label: `Number ${digit}`,
+    category: "numbers",
+    standard: "ISL",
+    hands: 1,
+    description: `ISL number ${digit} standard formation.`,
+    translations: { hi: `संख्या ${digit}`, ta: `எண் ${digit}`, bn: `সংখ্যা ${digit}`, te: `సంఖ్య ${digit}`, ur: `نمबर ${digit}` },
+    synonyms: [`number ${digit}`, `digit ${digit}`]
+  });
+});
+
+ISL_CATEGORIES.forEach(cat => {
+  if (cat.id === 'all') cat.count = ISL_REGISTRY.length;
+  else if (cat.id === 'quick') cat.count = ISL_REGISTRY.filter(s => s.isQuick).length;
+  else cat.count = ISL_REGISTRY.filter(s => s.category === cat.id).length;
+});
+
+function searchISLSigns(query) {
+  if (!query || !query.trim()) return ISL_REGISTRY;
+  const q = query.toLowerCase().trim();
+  return ISL_REGISTRY.filter(sign => {
+    if (sign.word.toLowerCase().includes(q) || sign.label.toLowerCase().includes(q)) return true;
+    if (sign.synonyms && sign.synonyms.some(s => s.toLowerCase().includes(q))) return true;
+    if (sign.translations) {
+      for (const [lang, trans] of Object.entries(sign.translations)) {
+        if (trans.toLowerCase().includes(q)) return true;
+      }
+    }
+    if (sign.category.toLowerCase().includes(q)) return true;
+    return false;
+  });
+}
+
+function openYouTubeTutorial(word) {
+  if (!word) return;
+  const query = `Indian Sign Language ${word}`;
+  const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+  window.open(url, '_blank');
+}
+
+/* =======================================================================
+   SHARED HELPERS & UI SETUP
+======================================================================= */
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+const $ = (sel, root=document) => root.querySelector(sel);
+
+function toast(msg, ms=3400){
+  const t = $('[data-role="toast"]');
+  if(!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toast._h);
+  toast._h = setTimeout(()=>t.classList.remove('show'), ms);
+}
+
+let currentSrcLang = 'en';
+let currentTgtLang = 'hi';
+
+function getLangMeta(code){
+  return INDIAN_LANGUAGES.find(l => l.code === code) || INDIAN_LANGUAGES[0];
+}
+
+function initLanguageSelectors(){
+  const srcSelect = $('#global-src-lang');
+  const tgtSelect = $('#global-tgt-lang');
+  if(!srcSelect || !tgtSelect) return;
+
+  const html = INDIAN_LANGUAGES.map(l => 
+    `<option value="${l.code}">${l.name} — ${l.native}</option>`
+  ).join('');
+
+  srcSelect.innerHTML = html;
+  tgtSelect.innerHTML = html;
+
+  srcSelect.value = currentSrcLang;
+  tgtSelect.value = currentTgtLang;
+
+  srcSelect.onchange = (e)=>{
+    currentSrcLang = e.target.value;
+    onLanguageChanged();
+  };
+  tgtSelect.onchange = (e)=>{
+    currentTgtLang = e.target.value;
+    onLanguageChanged();
+  };
+
+  const swapBtn = $('#swap-lang-btn');
+  if(swapBtn){
+    swapBtn.onclick = ()=>{
+      const tmp = currentSrcLang;
+      currentSrcLang = currentTgtLang;
+      currentTgtLang = tmp;
+      srcSelect.value = currentSrcLang;
+      tgtSelect.value = currentTgtLang;
+      onLanguageChanged();
+    };
+  }
+
+  updateLanguageBadges();
+}
+
+function updateLanguageBadges(){
+  const src = getLangMeta(currentSrcLang);
+  const tgt = getLangMeta(currentTgtLang);
+
+  const signTgtBadge = $('#sign-target-badge');
+  if(signTgtBadge) signTgtBadge.textContent = `${tgt.name.toUpperCase()} — ${tgt.native}`;
+
+  const benchSrcBadge = $('#bench-src-badge');
+  if(benchSrcBadge) benchSrcBadge.textContent = `SOURCE: ${src.name.toUpperCase()} (${src.native})`;
+
+  const benchTgtBadge = $('#bench-tgt-badge');
+  if(benchTgtBadge) benchTgtBadge.textContent = `TARGET: ${tgt.name.toUpperCase()} (${tgt.native})`;
+
+  const tgtDir = tgt.dir || 'ltr';
+  $('[data-role="recognized-trans-1"]')?.setAttribute('dir', tgtDir);
+  $('#bench-output')?.setAttribute('dir', tgtDir);
+  $('#bench-input')?.setAttribute('dir', src.dir || 'ltr');
+}
+
+function onLanguageChanged(){
+  updateLanguageBadges();
+  if(lastRecognizedGesture){
+    updateSignTranslation(lastRecognizedGesture);
+  }
+  renderSignExplorerGrid();
+  renderQuickSignsShelf();
+}
+
+// Tab Switching
+function switchTab(tabId){
+  $$('.tab-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.tab === tabId);
+  });
+  $$('.panel').forEach(p=>p.classList.remove('active'));
+  $('#tab-'+tabId)?.classList.add('active');
+}
+
+$$('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    switchTab(btn.dataset.tab);
+  });
+});
+
+// Under development Back to Sign->Text button
+$('#btn-back-to-sign2text')?.addEventListener('click', ()=>{
+  switchTab('sign2text');
+});
+
+/* =======================================================================
+   PROTECTED COMPONENT: ON-DEVICE COMPUTER VISION HAND RECOGNITION
+   (PRESERVED AS DESIGNED)
+======================================================================= */
+const HAND_CONNECTIONS = [
+  [0,1],[1,2],[2,3],[3,4],
+  [0,5],[5,6],[6,7],[7,8],
+  [5,9],[9,10],[10,11],[11,12],
+  [9,13],[13,14],[14,15],[15,16],
+  [13,17],[17,18],[18,19],[19,20],
+  [0,17]
+];
+
+const CAMERA_GESTURES = [
+  { word:"HELLO",       pattern:[1,1,1,1,1] },
+  { word:"NO",          pattern:[0,0,0,0,0] },
+  { word:"YES",         pattern:[1,0,0,0,0] },
+  { word:"WHERE",       pattern:[0,1,0,0,0] },
+  { word:"HELP",        pattern:[0,1,1,0,0] },
+  { word:"WATER",       pattern:[0,1,1,1,0] },
+  { word:"I LOVE YOU",  pattern:[1,1,0,0,1] },
+];
+
+let handLandmarker = null;
+let camStream = null;
+let camReady = false;
+let lastRecognizedGesture = null;
+let currentSignTranslation = '';
+const video = $('#webcam');
+
+function dist(a,b){ return Math.hypot(a.x-b.x, a.y-b.y); }
+
+function isExtended(tip, joint, anchor){
+  const dTip = dist(tip, anchor);
+  const dJoint = dist(joint, anchor);
+  return { extended: dTip > dJoint * 1.15, margin: (dTip/(dJoint||0.0001)) - 1.15 };
+}
+
+function classifyGesture(lm){
+  const wrist = lm[0];
+  const thumb  = isExtended(lm[4],  lm[3],  lm[17]);
+  const index  = isExtended(lm[8],  lm[6],  wrist);
+  const middle = isExtended(lm[12], lm[10], wrist);
+  const ring   = isExtended(lm[16], lm[14], wrist);
+  const pinky  = isExtended(lm[20], lm[18], wrist);
+
+  const palmWidth = dist(lm[5], lm[17]) || 0.0001;
+  const pinchDist = dist(lm[4], lm[8]);
+  const isPinch = pinchDist < palmWidth * 0.45;
+
+  if(isPinch && middle.extended && ring.extended && pinky.extended){
+    const margin = (palmWidth*0.45 - pinchDist) / palmWidth;
+    return { word:"I AM FINE", confidence: clampConf(0.78 + margin) };
+  }
+
+  const pattern = [thumb.extended?1:0, index.extended?1:0, middle.extended?1:0, ring.extended?1:0, pinky.extended?1:0];
+  const margins = [thumb.margin, index.margin, middle.margin, ring.margin, pinky.margin];
+
+  for(const g of CAMERA_GESTURES){
+    if(g.pattern.every((v,i)=>v===pattern[i])){
+      const avgMargin = margins.reduce((a,b)=>a+Math.abs(b),0)/5;
+      return { word:g.word, confidence: clampConf(0.7 + avgMargin*0.6) };
+    }
+  }
+  return null;
+}
+function clampConf(v){ return Math.max(0.6, Math.min(0.99, v)); }
+
+async function initHandLandmarker(){
+  if(handLandmarker) return handLandmarker;
+  if(!FilesetResolver || !HandLandmarker){
+    try {
+      const mp = await import("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14");
+      HandLandmarker = mp.HandLandmarker;
+      FilesetResolver = mp.FilesetResolver;
+    } catch(e) {
+      console.warn("Could not load MediaPipe vision from CDN:", e);
+      return null;
+    }
+  }
+  const vision = await FilesetResolver.forVisionTasks(
+    "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm"
+  );
+  try{
+    handLandmarker = await HandLandmarker.createFromOptions(vision, {
+      baseOptions:{
+        modelAssetPath:"https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
+        delegate:"GPU"
+      },
+      runningMode:"VIDEO",
+      numHands:2
+    });
+  }catch(e){
+    handLandmarker = await HandLandmarker.createFromOptions(vision, {
+      baseOptions:{
+        modelAssetPath:"https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
+        delegate:"CPU"
+      },
+      runningMode:"VIDEO",
+      numHands:2
+    });
+  }
+  return handLandmarker;
+}
+
+async function startCamera(){
+  if(camReady) return;
+
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    toast("Camera access requires a secure context (http://localhost or https://).", 4500);
+    return;
+  }
+
+  try{
+    $$('.cam-status').forEach(el=>{ el.textContent='REQUESTING PERMISSION...'; el.classList.remove('warn'); });
+    camStream = await navigator.mediaDevices.getUserMedia({ video:{ width:640, height:480 }, audio:false });
+    video.srcObject = camStream;
+    await video.play();
+    await new Promise(res=>{
+      if(video.readyState >= 2) return res();
+      video.onloadeddata = res;
+    });
+
+    try {
+      await initHandLandmarker();
+    } catch(err) {
+      console.warn("Hand landmarker model loading fallback:", err);
+    }
+
+    camReady = true;
+    $$('.cam-onboard').forEach(el=>el.style.display='none');
+    $$('.cam-status').forEach(el=>{ el.textContent='TRACKING'; el.classList.remove('warn'); });
+    requestAnimationFrame(camLoop);
+    toast("Camera enabled! Tracking hand landmarks on-device.");
+  }catch(err){
+    console.error("Camera permission error:", err);
+    toast("Camera permission was denied or unavailable. Check browser permissions.", 4000);
+    $$('.cam-status').forEach(el=>{ el.textContent='NO ACCESS'; el.classList.add('warn'); });
+  }
+}
+
+let lastVideoTime = -1;
+const gestureBuffer = [];
+const BUFFER_SIZE = 10;
+const LOCK_THRESHOLD = 7;
+let lockedWord = null;
+
+function camLoop(){
+  if(!camReady) return;
+  if(video.currentTime !== lastVideoTime && handLandmarker){
+    lastVideoTime = video.currentTime;
+    try {
+      const results = handLandmarker.detectForVideo(video, performance.now());
+      drawHandsOnAllCanvases(results);
+      processGesture(results);
+    } catch(e){}
+  }
+  requestAnimationFrame(camLoop);
+}
+
+function drawHandsOnAllCanvases(results){
+  $$('.hand-canvas').forEach(canvas=>{
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if(canvas.width !== w) canvas.width = w;
+    if(canvas.height !== h) canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,w,h);
+
+    ctx.save();
+    ctx.strokeStyle = 'rgba(94,234,212,0.045)';
+    ctx.lineWidth = 1;
+    for(let x=0;x<w;x+=32){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+    for(let y=0;y<h;y+=32){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+    ctx.restore();
+
+    ctx.save();
+    ctx.translate(w,0); ctx.scale(-1,1);
+
+    const hands = results.landmarks || [];
+    hands.forEach(lm=>{
+      ctx.strokeStyle = 'rgba(94,234,212,0.9)';
+      ctx.lineWidth = 2.4;
+      ctx.shadowColor = '#5eead4';
+      ctx.shadowBlur = 8;
+      HAND_CONNECTIONS.forEach(([a,b])=>{
+        ctx.beginPath();
+        ctx.moveTo(lm[a].x*w, lm[a].y*h);
+        ctx.lineTo(lm[b].x*w, lm[b].y*h);
+        ctx.stroke();
+      });
+      lm.forEach((p,i)=>{
+        ctx.beginPath();
+        ctx.arc(p.x*w, p.y*h, i===0?5:3.2, 0, Math.PI*2);
+        ctx.fillStyle = i===0 ? '#ff8a5c' : '#eef4f3';
+        ctx.shadowColor = i===0 ? '#ff8a5c' : '#5eead4';
+        ctx.shadowBlur = 6;
+        ctx.fill();
+      });
+    });
+    ctx.restore();
+  });
+}
+
+function processGesture(results){
+  const hands = results.landmarks || [];
+  let g = null;
+  if(hands.length > 0) g = classifyGesture(hands[0]);
+
+  gestureBuffer.push(g ? g.word : null);
+  if(gestureBuffer.length > BUFFER_SIZE) gestureBuffer.shift();
+
+  const counts = {};
+  gestureBuffer.forEach(w=>{ if(w) counts[w] = (counts[w]||0)+1; });
+  let bestWord = null, bestCount = 0;
+  Object.entries(counts).forEach(([w,c])=>{ if(c>bestCount){bestCount=c; bestWord=w;} });
+
+  const isLocking = bestCount >= LOCK_THRESHOLD;
+  $$('.sign-status').forEach(el=> el.textContent = hands.length===0 ? 'No hand in frame…' : (isLocking ? 'Sign locked' : 'Detecting sign…'));
+
+  if(g){
+    $$('.conf-value').forEach(el=> el.textContent = Math.round(g.confidence*100)+'%');
+  } else {
+    $$('.conf-value').forEach(el=> el.textContent = '—');
+  }
+
+  if(isLocking && bestWord !== lockedWord){
+    lockedWord = bestWord;
+    onSignRecognized(lockedWord);
+  }
+  if(hands.length===0){
+    lockedWord = null;
+  }
+}
+
+async function onSignRecognized(word){
+  lastRecognizedGesture = word;
+  $('[data-role="recognized-raw-1"]').textContent = word;
+  $('[data-role="recognized-raw-1"]').classList.remove('empty');
+  await updateSignTranslation(word);
+}
+
+async function updateSignTranslation(word){
+  if(!word) return;
+  const translated = await translateText(word, 'en', currentTgtLang);
+  currentSignTranslation = translated;
+
+  const transBox = $('[data-role="recognized-trans-1"]');
+  if(transBox){
+    transBox.textContent = translated;
+    transBox.classList.remove('empty');
+  }
+}
+
+$$('[data-action="start-camera"]').forEach(b=> b.addEventListener('click', startCamera));
+
+$$('[data-action="speak-recognized"]').forEach(b=> b.addEventListener('click', ()=>{
+  const textToSpeak = currentSignTranslation || lastRecognizedGesture;
+  if(!textToSpeak) return;
+  speak(textToSpeak, currentTgtLang);
+}));
+
+$$('[data-action="clear-recognized"]').forEach(b=> b.addEventListener('click', ()=>{
+  $('[data-role="recognized-raw-1"]').textContent = 'Waiting for a sign…';
+  $('[data-role="recognized-raw-1"]').classList.add('empty');
+  $('[data-role="recognized-trans-1"]').textContent = 'अनुवाद की प्रतीक्षा है…';
+  $('[data-role="recognized-trans-1"]').classList.add('empty');
+  lastRecognizedGesture = null;
+  currentSignTranslation = '';
+  lockedWord = null;
+}));
+
+function speak(text, langCode = 'hi'){
+  if(!('speechSynthesis' in window)){ toast('Speech synthesis is not supported in this browser.'); return; }
+  if(!text) return;
+
+  const u = new SpeechSynthesisUtterance(text);
+  const langMeta = getLangMeta(langCode);
+  u.lang = langMeta.ttsCode || langMeta.srCode || 'hi-IN';
+  u.rate = 0.95;
+
+  const voices = speechSynthesis.getVoices();
+  if(voices && voices.length > 0){
+    const match = voices.find(v => v.lang.toLowerCase().startsWith(langCode.toLowerCase()) || v.lang.includes(langMeta.ttsCode));
+    if(match) u.voice = match;
+  }
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+/* =======================================================================
+   ISL SIGN EXPLORER & LEARNING LIBRARY (YOUTUBE INTEGRATION)
+======================================================================= */
+let activeCategory = 'all';
+
+function initSignExplorer(){
+  renderCategoryPills();
+  renderQuickSignsShelf();
+  renderSignExplorerGrid();
+
+  const searchInp = $('#isl-search-input');
+  if(searchInp){
+    searchInp.oninput = (e)=>{
+      renderSignExplorerGrid(e.target.value);
+    };
+  }
+}
+
+function renderCategoryPills(){
+  const container = $('#cat-pills-container');
+  if(!container) return;
+
+  container.innerHTML = ISL_CATEGORIES.map(c => `
+    <button class="cat-pill ${c.id===activeCategory?'active':''}" data-cat="${c.id}">
+      <span>${c.icon}</span> <span>${c.name}</span> <small style="color:var(--text-faint)">(${c.count})</small>
+    </button>
+  `).join('');
+
+  $$('.cat-pill', container).forEach(btn=>{
+    btn.onclick = ()=>{
+      activeCategory = btn.dataset.cat;
+      $$('.cat-pill', container).forEach(b=> b.classList.toggle('active', b.dataset.cat === activeCategory));
+      renderSignExplorerGrid($('#isl-search-input')?.value || '');
+    };
+  });
+}
+
+function renderQuickSignsShelf(){
+  const shelf = $('#quick-signs-grid');
+  if(!shelf) return;
+
+  const quickSigns = ISL_REGISTRY.filter(s => s.isQuick);
+  shelf.innerHTML = quickSigns.map(s => {
+    const trans = s.translations ? (s.translations[currentTgtLang] || s.translations['hi'] || '') : '';
+    return `
+      <div class="quick-card" data-word="${s.word}" title="Click to learn ${s.word} on YouTube">
+        <div class="q-title">${s.word}</div>
+        <div class="q-trans">${trans || s.label}</div>
+        <div class="q-yt">▶ Learn video</div>
+      </div>
+    `;
+  }).join('');
+
+  $$('.quick-card', shelf).forEach(card=>{
+    card.onclick = ()=>{
+      openYouTubeTutorial(card.dataset.word);
+    };
+  });
+}
+
+function renderSignExplorerGrid(searchQuery = ''){
+  const grid = $('#sign-cards-grid');
+  if(!grid) return;
+
+  let results = searchQuery ? searchISLSigns(searchQuery) : ISL_REGISTRY;
+  if(activeCategory !== 'all'){
+    if(activeCategory === 'quick'){
+      results = results.filter(s => s.isQuick);
+    } else {
+      results = results.filter(s => s.category === activeCategory);
+    }
+  }
+
+  if(results.length === 0){
+    grid.innerHTML = `
+      <div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-faint);">
+        No ISL signs found matching "${searchQuery}". Try searching another Indian language or letter.
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = results.map(s => {
+    const trans = s.translations ? (s.translations[currentTgtLang] || s.translations['hi'] || '') : '';
+    return `
+      <div class="sign-card" data-word="${s.word}" title="Click to learn ${s.word} on YouTube">
+        <div>
+          <div class="sign-card-head">
+            <span class="sign-card-title">${s.word}</span>
+            <span class="badge" style="font-size:9.5px;">${s.hands === 2 ? '2-HAND' : '1-HAND'}</span>
+          </div>
+          <div class="sign-card-trans">${trans ? `${trans} (${s.label})` : s.label}</div>
+          <div class="sign-card-desc">${s.description}</div>
+        </div>
+        <div class="sign-card-footer">
+          <span class="sub mono" style="font-size:10.5px; color:var(--cyan);">${s.standard} STANDARD</span>
+          <div class="yt-learn-badge">▶ Learn on YouTube</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  $$('.sign-card', grid).forEach(card=>{
+    card.onclick = ()=>{
+      openYouTubeTutorial(card.dataset.word);
+    };
+  });
+}
+
+/* =======================================================================
+   DIRECT TRANSLATOR WORKBENCH
+======================================================================= */
+function initTranslatorWorkbench(){
+  const input = $('#bench-input');
+  const output = $('#bench-output');
+  const transBtn = $('#bench-translate-btn');
+  const speakBtn = $('#bench-speak-btn');
+  const copyBtn = $('#bench-copy-btn');
+  const clearBtn = $('#bench-clear-btn');
+  const micBtn = $('#bench-mic-btn');
+
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let recognition = null;
+  if(SR){
+    recognition = new SR();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+  }
+
+  async function doTranslate(){
+    if(!input || !output) return;
+    const text = input.value.trim();
+    if(!text){
+      output.textContent = 'Please enter text to translate.';
+      output.classList.add('empty');
+      return;
+    }
+    output.textContent = 'Translating...';
+    output.classList.remove('empty');
+
+    const result = await translateText(text, currentSrcLang, currentTgtLang);
+    output.textContent = result;
+  }
+
+  if(transBtn) transBtn.onclick = doTranslate;
+  if(input){
+    input.onkeydown = (e)=>{
+      if(e.key === 'Enter' && (e.ctrlKey || e.metaKey)) doTranslate();
+    };
+  }
+
+  if(speakBtn){
+    speakBtn.onclick = ()=>{
+      const text = output.textContent.trim();
+      if(!text || text === 'Translation will appear here...' || text === 'Translating...') return;
+      speak(text, currentTgtLang);
+    };
+  }
+
+  if(copyBtn){
+    copyBtn.onclick = ()=>{
+      const text = output.textContent.trim();
+      if(!text || text === 'Translation will appear here...') return;
+      navigator.clipboard.writeText(text).then(()=>{
+        toast('Translation copied to clipboard!');
+      }).catch(()=>{
+        toast('Failed to copy to clipboard.');
+      });
+    };
+  }
+
+  if(clearBtn){
+    clearBtn.onclick = ()=>{
+      input.value = '';
+      output.textContent = 'Translation will appear here...';
+      output.classList.add('empty');
+    };
+  }
+
+  if(micBtn){
+    micBtn.onclick = ()=>{
+      if(!recognition){ toast('Speech recognition is not supported in this browser.'); return; }
+      toast(`Listening in ${getLangMeta(currentSrcLang).name}... Speak now!`);
+      recognition.lang = getLangMeta(currentSrcLang).srCode;
+      try{ recognition.start(); }catch(e){}
+      recognition.onresult = (e)=>{
+        if(e.results && e.results[0] && e.results[0][0]){
+          input.value = e.results[0][0].transcript;
+          doTranslate();
+        }
+      };
+      recognition.onerror = (e)=>{
+        if(e.error !== 'no-speech') toast('Mic error: ' + e.error);
+      };
+    };
+  }
+
+  $$('.quick-phrases').forEach(container => {
+    $$('.quick-chip', container).forEach(chip=>{
+      chip.onclick = ()=>{
+        if(input){
+          input.value = chip.dataset.phrase.replace(/"/g, '');
+          doTranslate();
+        }
+      };
+    });
+  });
+}
+
+// Immediate synchronous bootstrap
+function boot(){
+  initLanguageSelectors();
+  initSignExplorer();
+  initTranslatorWorkbench();
+}
+
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', boot);
+} else {
+  boot();
+}
+</script>
+</body>
+</html>

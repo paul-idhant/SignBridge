@@ -775,6 +775,124 @@
   }
   footer.note b{color:var(--text-dim);}
 
+  /* ===================== FEEDBACK PAGE ===================== */
+  .fb-wrap{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media(max-width:900px){ .fb-wrap{grid-template-columns:1fr;} }
+
+  .fb-card{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px;
+  }
+  .fb-card h3{
+    margin:0 0 4px; font-size:15px; letter-spacing:.5px;
+    color:var(--cyan); text-transform:uppercase;
+  }
+  .fb-card .fb-sub{
+    display:block; font-size:12px; color:var(--text-faint);
+    margin-bottom:16px; line-height:1.5;
+  }
+  .fb-field{margin-bottom:15px;}
+  .fb-field label{
+    display:block; font-size:11px; letter-spacing:.8px;
+    text-transform:uppercase; color:var(--text-dim); margin-bottom:6px;
+  }
+  .fb-field label .req{color:var(--coral);}
+  .fb-field input, .fb-field textarea, .fb-field select{
+    width:100%; box-sizing:border-box;
+    background:var(--bg); color:var(--text);
+    border:1px solid var(--line); border-radius:9px;
+    padding:10px 12px; font-size:13px; font-family:inherit;
+    transition:border-color .2s ease, box-shadow .2s ease;
+  }
+  .fb-field input:focus, .fb-field textarea:focus, .fb-field select:focus{
+    outline:none; border-color:var(--cyan-dim);
+    box-shadow:0 0 0 3px rgba(94,234,212,0.10);
+  }
+  .fb-field textarea{resize:vertical; min-height:96px; line-height:1.6;}
+  .fb-field .fb-hint{font-size:11px; color:var(--text-faint); margin-top:5px;}
+  .fb-field.invalid input, .fb-field.invalid textarea{border-color:var(--coral);}
+  .fb-err{font-size:11px; color:var(--coral); margin-top:5px; display:none;}
+  .fb-field.invalid .fb-err{display:block;}
+
+  /* Star rating */
+  .stars{display:flex; gap:6px; align-items:center;}
+  .star{
+    background:none; border:none; cursor:pointer;
+    font-size:31px; line-height:1; padding:0 2px;
+    color:#2a3336; transition:transform .12s ease, color .15s ease;
+    filter:grayscale(1);
+  }
+  .star:hover{transform:scale(1.18);}
+  .star.on{color:var(--gold); filter:none; text-shadow:0 0 14px rgba(251,191,36,0.55);}
+  .star:focus-visible{outline:2px solid var(--cyan); outline-offset:3px; border-radius:5px;}
+  .star-label{
+    margin-left:12px; font-size:12px; color:var(--gold);
+    font-weight:600; letter-spacing:.4px; min-height:16px;
+  }
+
+  /* Chips for "what did you use" */
+  .fb-chips{display:flex; flex-wrap:wrap; gap:7px;}
+  .fb-chip{
+    background:var(--bg); border:1px solid var(--line);
+    color:var(--text-dim); border-radius:20px;
+    padding:6px 13px; font-size:12px; cursor:pointer;
+    transition:all .16s ease; user-select:none;
+  }
+  .fb-chip:hover{border-color:var(--line-active); color:var(--text);}
+  .fb-chip.on{
+    background:rgba(94,234,212,0.10);
+    border-color:var(--cyan-dim); color:var(--cyan);
+  }
+
+  /* Referral */
+  .ref-box{
+    display:flex; gap:8px; margin-top:12px;
+  }
+  .ref-box input{
+    flex:1; background:var(--bg); color:var(--cyan);
+    border:1px dashed var(--cyan-dim); border-radius:9px;
+    padding:10px 12px; font-size:12px; font-family:ui-monospace,monospace;
+  }
+  .grow-banner{
+    background:linear-gradient(135deg, rgba(94,234,212,0.09), rgba(251,191,36,0.07));
+    border:1px solid var(--cyan-dim); border-radius:14px;
+    padding:18px 20px; margin-bottom:18px;
+  }
+  .grow-banner h3{margin:0 0 7px; color:var(--gold); font-size:15px;}
+  .grow-banner p{margin:0; font-size:13px; color:var(--text-dim); line-height:1.65;}
+
+  .fb-stat-row{display:flex; gap:10px; margin-top:16px; flex-wrap:wrap;}
+  .fb-stat-row .fb-stat:only-child{flex:0 0 auto; min-width:132px;}
+  .fb-stat{
+    flex:1; min-width:96px; background:var(--bg);
+    border:1px solid var(--line); border-radius:11px;
+    padding:12px; text-align:center;
+  }
+  .fb-stat .n{display:block; font-size:20px; font-weight:700; color:var(--cyan);}
+  .fb-stat .l{font-size:10.5px; color:var(--text-faint); letter-spacing:.6px; text-transform:uppercase;}
+
+  .fb-success{
+    display:none; text-align:center; padding:30px 20px;
+  }
+  .fb-success.show{display:block; animation:fade .3s ease;}
+  .fb-success .tick{font-size:52px; line-height:1;}
+  .fb-success h3{color:var(--cyan); margin:14px 0 8px; font-size:17px;}
+  .fb-success p{color:var(--text-dim); font-size:13px; line-height:1.7; margin:0 auto; max-width:400px;}
+
+  .setup-warn{
+    background:rgba(251,146,60,0.10);
+    border:1px solid rgba(251,146,60,0.42);
+    color:#fdba74; border-radius:11px;
+    padding:12px 15px; font-size:12px; line-height:1.65;
+    margin-bottom:16px;
+  }
+  .setup-warn code{
+    background:rgba(0,0,0,.34); padding:1px 6px;
+    border-radius:4px; font-size:11.5px; color:#fed7aa;
+  }
+
   .toast{
     position:fixed;
     bottom:22px; left:50%;
@@ -793,6 +911,51 @@
     text-align:center;
   }
   .toast.show{opacity:1; transform:translateX(-50%) translateY(-6px);}
+
+  .cam-legend{
+    margin-top:18px;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+  }
+  .cam-chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .cam-chip{
+    background:var(--panel-3);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:7px 10px;
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    max-width:230px;
+    transition:border-color .15s ease;
+  }
+  .cam-chip:hover{border-color:var(--cyan-dim);}
+  .cam-chip-word{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:12.5px;
+    color:var(--cyan);
+    letter-spacing:0.02em;
+  }
+  .cam-chip-hint{
+    font-size:11px;
+    color:var(--text-dim);
+    line-height:1.35;
+  }
+  .badge.cam-tag{
+    color:var(--coral);
+    border-color:var(--coral-dim);
+    background:rgba(255,138,92,0.08);
+    font-weight:600;
+    white-space:nowrap;
+  }
+  .q-cam{font-size:10px;}
 
   [dir="rtl"]{text-align:right;}
 
@@ -821,6 +984,7 @@
         <button class="tab-btn" data-tab="live">LIVE CONVERSATION</button>
         <button class="tab-btn" data-tab="explorer">📚 ISL LIBRARY</button>
         <button class="tab-btn" data-tab="translator">🌐 TRANSLATOR</button>
+        <button class="tab-btn" data-tab="feedback">💬 FEEDBACK</button>
       </nav>
     </div>
   </header>
@@ -866,7 +1030,7 @@
         </div>
       </div>
       <div class="control-row">
-        <button class="primary" data-action="speak-recognized">🔊 SPEAK TRANSLATION</button>
+        <button class="primary" data-action="speak-recognized">🔊 SPEAK WORD</button>
         <button class="ghost" data-action="clear-recognized">CLEAR</button>
       </div>
       
@@ -885,6 +1049,11 @@
           </div>
           <div class="recognized-text empty" data-role="recognized-trans-1">अनुवाद की प्रतीक्षा है…</div>
         </div>
+      </div>
+
+      <div class="cam-legend">
+        <div class="shelf-title">📷 SIGNS THE CAMERA RECOGNIZES — SHOW ONE OF THESE GESTURES:</div>
+        <div class="cam-chips" id="cam-legend-chips"></div>
       </div>
     </div>
   </section>
@@ -1052,6 +1221,134 @@
     </div>
   </section>
 
+  <!-- TAB 6: FEEDBACK -->
+  <section class="panel" id="tab-feedback">
+    <div class="stage-wrap">
+      <div class="stage-head">
+        <h2>FEEDBACK &amp; COMMUNITY</h2>
+        <span class="sub">Tell us how SignBridge worked for you — every response is read.</span>
+      </div>
+
+      <div id="fb-setup-warn" class="setup-warn" style="display:none;">
+        <b>⚙️ Setup needed:</b> feedback delivery is not configured yet.
+        Open this file and set <code>FEEDBACK_ENDPOINT</code> near the top of the
+        feedback script to your Google Apps Script URL. Until then, responses are
+        saved locally in this browser only.
+      </div>
+
+      <div class="grow-banner">
+        <h3>🌱 Please help us grow a bigger base</h3>
+        <p>
+          SignBridge is built to make Indian Sign Language accessible to everyone, free of cost.
+          The single biggest thing you can do is <b>refer it to your friends and family</b> —
+          especially teachers, healthcare workers, and anyone supporting a Deaf or
+          hard-of-hearing person. Every share genuinely helps someone communicate.
+        </p>
+      </div>
+
+      <div class="fb-wrap">
+
+        <!-- ============ FEEDBACK FORM ============ -->
+        <div class="fb-card">
+          <div id="fb-form-view">
+            <h3>Share your feedback</h3>
+            <span class="fb-sub">Takes under a minute. Only the rating is required.</span>
+
+            <div class="fb-field">
+              <label>Satisfaction level <span class="req">*</span></label>
+              <div class="stars" id="fb-stars" role="radiogroup" aria-label="Satisfaction rating">
+                <button type="button" class="star" data-v="1" role="radio" aria-checked="false" aria-label="1 star - Very poor">★</button>
+                <button type="button" class="star" data-v="2" role="radio" aria-checked="false" aria-label="2 stars - Poor">★</button>
+                <button type="button" class="star" data-v="3" role="radio" aria-checked="false" aria-label="3 stars - Okay">★</button>
+                <button type="button" class="star" data-v="4" role="radio" aria-checked="false" aria-label="4 stars - Good">★</button>
+                <button type="button" class="star" data-v="5" role="radio" aria-checked="false" aria-label="5 stars - Excellent">★</button>
+                <span class="star-label" id="fb-star-label"></span>
+              </div>
+              <div class="fb-err" id="fb-star-err">Please pick a star rating.</div>
+            </div>
+
+            <div class="fb-field">
+              <label>Which parts did you use?</label>
+              <div class="fb-chips" id="fb-used">
+                <div class="fb-chip" data-v="Sign to Text">Sign → Text</div>
+                <div class="fb-chip" data-v="Translator">Translator</div>
+                <div class="fb-chip" data-v="ISL Library">ISL Library</div>
+                <div class="fb-chip" data-v="Speech Output">Speech Output</div>
+              </div>
+            </div>
+
+            <div class="fb-field">
+              <label for="fb-msg">Your feedback</label>
+              <textarea id="fb-msg" maxlength="1200"
+                placeholder="What worked well? What was confusing? What should we build next?"></textarea>
+              <div class="fb-hint"><span id="fb-count">0</span>/1200 characters</div>
+            </div>
+
+            <div class="fb-field">
+              <label for="fb-name">Name <span style="color:var(--text-faint);">(optional)</span></label>
+              <input id="fb-name" type="text" maxlength="80" placeholder="How should we address you?" autocomplete="name">
+            </div>
+
+            <div class="fb-field" id="fb-email-field">
+              <label for="fb-email">Email <span style="color:var(--text-faint);">(optional — only if you want a reply)</span></label>
+              <input id="fb-email" type="email" maxlength="120" placeholder="you@example.com" autocomplete="email">
+              <div class="fb-err" id="fb-email-err">Please enter a valid email address.</div>
+            </div>
+
+            <div class="control-row" style="margin-top:4px;">
+              <button class="primary" id="fb-submit">📨 SEND FEEDBACK</button>
+              <button class="ghost" id="fb-reset">CLEAR</button>
+            </div>
+          </div>
+
+          <div class="fb-success" id="fb-success-view">
+            <div class="tick">✅</div>
+            <h3>Thank you — your feedback was received!</h3>
+            <p id="fb-success-msg">
+              We read every single response. If you left an email we'll get back to you.
+              Now please consider sharing SignBridge with someone who needs it →
+            </p>
+            <div class="control-row" style="justify-content:center; margin-top:20px;">
+              <button class="ghost" id="fb-another">SEND ANOTHER RESPONSE</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============ REFERRAL ============ -->
+        <div class="fb-card">
+          <h3>🎁 Refer &amp; help others</h3>
+          <span class="fb-sub">
+            Share this link with friends and family. No sign-up, no cost — it works
+            straight in any browser.
+          </span>
+
+          <div class="fb-field">
+            <label>Your shareable link</label>
+            <div class="ref-box">
+              <input id="fb-ref-link" type="text" readonly aria-label="Shareable link">
+              <button class="primary" id="fb-copy-link" style="white-space:nowrap;">COPY</button>
+            </div>
+            <div class="fb-hint">Includes a referral tag so we can see how many people you brought in.</div>
+          </div>
+
+          <div class="fb-stat-row">
+            <div class="fb-stat">
+              <span class="n" id="fb-stat-rating">—</span>
+              <span class="l">Your rating</span>
+            </div>
+          </div>
+
+          <div class="fb-hint" style="margin-top:16px; line-height:1.7;">
+            <b style="color:var(--text-dim);">Why this matters:</b> over 60 lakh Deaf and
+            hard-of-hearing people in India rely on ISL, but very few free tools support
+            all 22 scheduled languages. Your referral puts this in the hands of someone
+            who needs it today.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer class="note">
     <b>SignBridge Indian Sign Language (ISL) Standard.</b> Primary sign language standards are curated according to Indian Sign Language (ISL) two-handed alphabet and regional syntax.
     All on-device hand gesture recognition runs client-side in WebAssembly/WebGL. Supports 22 Eighth Schedule Indian Languages + English.
@@ -1118,8 +1415,8 @@ const OFFLINE_DICTIONARY = {
     doi: "हाँ", brx: "नंगौ", mni: "হোয়"
   },
   "NO": {
-    en: "No", hi: "नहीं", bn: "না", te: "ಕಾದು / లేదు", mr: "नाही",
-    ta: "இல்லை", gu: "ના", kn: "ಇಲ್ಲ", ml: "അല്ല / ಇಲ್ಲ", pa: "ਨਹੀਂ",
+    en: "No", hi: "नहीं", bn: "না", te: "లేదు / కాదు", mr: "नाही",
+    ta: "இல்லை", gu: "ના", kn: "ಇಲ್ಲ", ml: "അല്ല / ഇല്ല", pa: "ਨਹੀਂ",
     or: "ନା", as: "নহয়", ur: "نہیں", sa: "न", mai: "नहि",
     sat: "ᱵᱟᱝ", ks: "نہ", ne: "होइन", sd: "نہ", kok: "ना",
     doi: "नेईं", brx: "नङा", mni: "নত্তে"
@@ -1147,7 +1444,7 @@ const OFFLINE_DICTIONARY = {
   },
   "WHERE": {
     en: "Where", hi: "कहाँ", bn: "কোথায়", te: "ఎక్కడ", mr: "कुठे",
-    ta: "எங்கே", gu: "ક્યાં", kn: "ಎಲ್ಲಿ", ml: "એവിടെ", pa: "ਕਿੱਥੇ",
+    ta: "எங்கே", gu: "ક્યાં", kn: "ಎಲ್ಲಿ", ml: "എവിടെ", pa: "ਕਿੱਥੇ",
     or: "କେଉଁଠି", as: "ক’ত", ur: "کہاں", sa: "कुत्र", mai: "कतय",
     sat: "ᱚᱠᱟᱨᱮ", ks: "کتی", ne: "कहाँ", sd: "ڪٿي", kok: "खंय",
     doi: "कुत्थे", brx: "बहा", mni: "কদাইদা"
@@ -1163,7 +1460,7 @@ const OFFLINE_DICTIONARY = {
     en: "I am fine", hi: "मैं ठीक हूँ", bn: "আমি ভালো আছি", te: "నేను బాగున్నాను", mr: "मी ठीक आहे",
     ta: "நான் நலமாக இருக்கிறேன்", gu: "હું મજામાં છું", kn: "ನಾನು ಆರಾಮಾಗಿದ್ದೇನೆ", ml: "എനിക്ക് സുഖമാണ്", pa: "ਮੈਂ ਠੀਕ ਹਾਂ",
     or: "ମୁଁ ଭଲ ଅଛି", as: "মই ভালে আছোঁ", ur: "میں ٹھیک ہوں", sa: "अहं कुशलः अस्मि", mai: "हम नीक छी",
-    sat: "ᱤᱧ ᱱᱟᱯᱟᱭ ᱜᱮ ᱢᱤᱱᱟᱹᱧᱟ", ks: "بہٕ چھُس ٹھیک", ne: "म सन्चै छु", sd: "মান ٺيڪ آهيان", kok: "हांव बरो आसां",
+    sat: "ᱤᱧ ᱱᱟᱯᱟᱭ ᱜᱮ ᱢᱤᱱᱟᱹᱧᱟ", ks: "بہٕ چھُس ٹھیک", ne: "म सन्चै छु", sd: "مان ٺيڪ آهيان", kok: "हांव बरो आसां",
     doi: "मैं ठीक आं", brx: "आं मोजां दं", mni: "ঐ নুংঙাইরি"
   },
   "I LOVE YOU": {
@@ -1172,7 +1469,64 @@ const OFFLINE_DICTIONARY = {
     or: "ମୁଁ ତୁମକୁ ଭଲପାଏ", as: "মই তোমাক ভাল পাওঁ", ur: "मुझे آپ سے محبت ہے", sa: "अहं त्वां कामयामि", mai: "हम अहाँ सं प्रेम करैत छी",
     sat: "ᱤᱧ ᱟᱢᱤᱧ ᱫᱩᱞᱟᱹᱲᱮᱫ ᱢᱮᱭᱟ", ks: "مےٚ چھُ چےٚ سۭتۍ پیار", ne: "म तिमीलाई माया गर्छु", sd: "مان تو سان پيار ڪريان ٿو", kok: "हांव तुजेर मोग करतां",
     doi: "मैं तुंदे कन्नै प्यार करदा", brx: "आं नोंखौ मोजां मोनो", mni: "ঐহাক্না নখোয়বু নুংশি"
-  }
+  },
+
+  "PROMISE": {
+    en: "Promise", hi: "वादा", bn: "প্রতিশ্রুতি", te: "వాగ్దానం", mr: "वचन",
+    ta: "வாக்குறுதி", gu: "વચન", kn: "ವಾಗ್ದಾನ", ml: "വാഗ്ദാനം", pa: "ਵਾਅਦਾ",
+    or: "ପ୍ରତିଜ୍ଞା", as: "প্ৰতিশ্ৰুতি", ur: "وعدہ", sa: "प्रतिज्ञा", mai: "वादा",
+    sat: "ᱵᱚᱪᱚᱱ", ks: "وعدہ", ne: "प्रतिज्ञा", sd: "وعدو", kok: "वचन",
+    doi: "वादा", brx: "वादा", mni: "ওয়াদা"
+  },
+  "CALL": {
+    en: "Call", hi: "बुलाओ / फ़ोन करो", bn: "ডাকো / ফোন করো", te: "పిలుపు / ఫోన్", mr: "हाक / फोन करा",
+    ta: "அழைப்பு", gu: "બોલાવો / ફોન", kn: "ಕರೆ ಮಾಡಿ", ml: "വിളിക്കുക", pa: "ਕਾਲ ਕਰੋ",
+    or: "ଡାକ", as: "মাতা", ur: "پکارو / فون کرو", sa: "आह्वानम्", mai: "बजाब",
+    sat: "ᱰᱟᱠ", ks: "کال", ne: "फोन गर्नु", sd: "سڏ", kok: "आपय",
+    doi: "फोन करो", brx: "रिंगाय", mni: "কৌবা"
+  },
+  "THREE": {
+    en: "Three", hi: "तीन", bn: "তিন", te: "మూడు", mr: "तीन",
+    ta: "மூன்று", gu: "ત્રણ", kn: "ಮೂರು", ml: "മൂന്ന്", pa: "ਤਿੰਨ",
+    or: "ତିନି", as: "তিনি", ur: "تین", sa: "त्रीणि", mai: "तीन",
+    sat: "ᱯᱮ", ks: "ترٛےٚ", ne: "तीन", sd: "ٽي", kok: "तीन",
+    doi: "त्रे", brx: "थाम", mni: "অহুম"
+  },
+  "FOUR": {
+    en: "Four", hi: "चार", bn: "চার", te: "నాలుగు", mr: "चार",
+    ta: "நான்கு", gu: "ચાર", kn: "ನಾಲ್ಕು", ml: "നാല്", pa: "ਚਾਰ",
+    or: "ଚାରି", as: "চাৰি", ur: "چار", sa: "चत्वारि", mai: "चारि",
+    sat: "ᱯᱳᱱ", ks: "ژور", ne: "चार", sd: "چار", kok: "चार",
+    doi: "चार", brx: "ब्रै", mni: "মরি"
+  },
+  "ROCK": {
+    en: "Rock", hi: "चट्टान", bn: "পাথর", te: "రాయి / రాక్", mr: "खडक",
+    ta: "பாறை", gu: "ખડક", kn: "ಬಂಡೆ", ml: "പാറ", pa: "ਚੱਟਾਨ",
+    or: "ପଥର", as: "শিল", ur: "چٹان", sa: "शिला", mai: "चट्टान",
+    sat: "ᱫᱷᱤᱨᱤ", ks: "پتھر", ne: "ढुङ्गा", sd: "پٿر", kok: "फातर",
+    doi: "चट्टान", brx: "हार", mni: "নুংঙ"
+  },
+  "OK": {
+    en: "OK", hi: "ठीक है", bn: "ঠিক আছে", te: "సరే", mr: "ठीक आहे",
+    ta: "சரி", gu: "ઠીક", kn: "ಸರಿ", ml: "ശരി", pa: "ਠੀਕ",
+    or: "ଠିକ", as: "ঠিক", ur: "ٹھیک", sa: "अस्तु", mai: "ठीक",
+    sat: "ᱴᱷᱤᱠ", ks: "ٹھیک", ne: "ठिक", sd: "ٺيڪ", kok: "सारें",
+    doi: "ठीक", brx: "नंगौ", mni: "হোয়"
+  },
+  "NAMASTE": {
+    en: "Namaste", hi: "नमस्ते", bn: "নমস্কার", te: "నమస్కారం", mr: "नमस्कार",
+    ta: "வணக்கம்", gu: "નમસ્તે", kn: "ನಮಸ್ಕಾರ", ml: "നമസ്കാരം", pa: "ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ",
+    or: "ନମସ୍କାର", as: "নমস্কাৰ", ur: "نمستے / سلام", sa: "नमस्ते", mai: "प्रणाम",
+    sat: "ᱡᱚᱦᱟᱨ", ks: "نمستے", ne: "नमस्ते", sd: "نمستي", kok: "नमस्कार",
+    doi: "नमस्ते", brx: "खुलुमबाय", mni: "খুরুমজরি"
+  },
+  "L": {
+    en: "L", hi: "अक्षर एल", bn: "অক্ষর L", te: "అక్షరం L", mr: "अक्षर L",
+    ta: "எழுத்து L", gu: "અક્ષર L", kn: "ಅಕ್ಷರ L", ml: "അക്ഷരം L", pa: "ਅੱਖਰ L",
+    or: "ଅକ୍ଷର L", as: "আখৰ L", ur: "حرف L", sa: "वर्ण L", mai: "अक्षर L",
+    sat: "L", ks: "L", ne: "अक्षर L", sd: "اکر L", kok: "अक्षर L",
+    doi: "अक्षर L", brx: "L", mni: "L"
+  },
 };
 
 const transCache = new Map();
@@ -1454,6 +1808,288 @@ const ISL_ALPHABET_DESCS = {
   });
 });
 
+/* =======================================================================
+   EXTENDED ISL VOCABULARY — emotions, family, school, food, health,
+   emergency, questions & places
+======================================================================= */
+const ISL_EXTENDED_SIGNS = [
+  // ---------- EMOTIONS & FEELINGS ----------
+  { id:"isl_happy", word:"HAPPY", label:"Happy / Glad", category:"emotions", standard:"ISL", hands:2, isQuick:true,
+    description:"Both open flat hands brush upward and outward repeatedly over the chest.",
+    translations:{ hi:"खुश", ta:"மகிழ்ச்சி", bn:"খুশি", te:"సంతోషం", mr:"आनंदी", gu:"ખુશ", kn:"ಸಂತೋಷ", ml:"സന്തോഷം", ur:"خوش" },
+    synonyms:["glad","joy","khush","santhosham","magizhchi"] },
+  { id:"isl_sad", word:"SAD", label:"Sad / Unhappy", category:"emotions", standard:"ISL", hands:2,
+    description:"Both flat hands placed near the cheeks move downward along the face.",
+    translations:{ hi:"उदास", ta:"சோகம்", bn:"দুঃখী", te:"విచారంగా", mr:"उदास", gu:"ઉદાસ", kn:"ದುಃಖ", ml:"സങ്കടം", ur:"اداس" },
+    synonyms:["unhappy","dukhi","sogam","vishadam"] },
+  { id:"isl_angry", word:"ANGRY", label:"Angry / Mad", category:"emotions", standard:"ISL", hands:2,
+    description:"Both hands form claw shapes near the temples, shaking with a tense expression.",
+    translations:{ hi:"गुस्सा", ta:"கோபம்", bn:"রাগ", te:"కోపం", mr:"राग", gu:"ગુસ્સો", kn:"ಕೋಪ", ml:"ദേഷ്യം", ur:"غصہ" },
+    synonyms:["mad","gussa","kopam","kobam","deshyam"] },
+  { id:"isl_afraid", word:"AFRAID", label:"Afraid / Scared", category:"emotions", standard:"ISL", hands:2,
+    description:"Both open hands at chest level move outward and back with a startled look.",
+    translations:{ hi:"डर", ta:"பயம்", bn:"ভয়", te:"భయం", mr:"भीती", gu:"ડર", kn:"ಭಯ", ml:"പേടി", ur:"ڈر" },
+    synonyms:["scared","fear","dar","bayam","bhayam","pedi"] },
+  { id:"isl_love", word:"LOVE", label:"Love / Affection", category:"emotions", standard:"ISL", hands:2,
+    description:"Both arms cross over the chest, hands resting on opposite shoulders (hugging self).",
+    translations:{ hi:"प्यार", ta:"அன்பு", bn:"ভালোবাসা", te:"ప్రేమ", mr:"प्रेम", gu:"પ્રેમ", kn:"ಪ್ರೀತಿ", ml:"സ്നേഹം", ur:"محبت" },
+    synonyms:["affection","pyar","anbu","prema","sneham"] },
+  { id:"isl_tired", word:"TIRED", label:"Tired / Exhausted", category:"emotions", standard:"ISL", hands:2,
+    description:"Both hands droop downward from the shoulders with a heavy, exhausted posture.",
+    translations:{ hi:"थका हुआ", ta:"களைப்பு", bn:"ক্লান্ত", te:"అలసట", mr:"थकलेला", gu:"થાકેલું", kn:"ದಣಿದ", ml:"ക്ഷീണം", ur:"تھکا ہوا" },
+    synonyms:["exhausted","thaka","kalaippu","alasata"] },
+  { id:"isl_cry", word:"CRY", label:"Cry / Weep", category:"emotions", standard:"ISL", hands:2,
+    description:"Index fingers of both hands trace tear-lines down from the eyes toward the cheeks.",
+    translations:{ hi:"रोना", ta:"அழுகை", bn:"কান্না", te:"ఏడుపు", mr:"रडणे", gu:"રડવું", kn:"ಅಳು", ml:"കരച്ചിൽ", ur:"رونا" },
+    synonyms:["weep","rona","azhugai","edupu"] },
+  { id:"isl_laugh", word:"LAUGH", label:"Laugh / Smile", category:"emotions", standard:"ISL", hands:2,
+    description:"Both open hands near the mouth move outward in repeated small arcs.",
+    translations:{ hi:"हँसना", ta:"சிரிப்பு", bn:"হাসি", te:"నవ్వు", mr:"हसणे", gu:"હસવું", kn:"ನಗು", ml:"ചിരി", ur:"ہنسنا" },
+    synonyms:["smile","hasna","sirippu","navvu","chiri"] },
+  { id:"isl_surprised", word:"SURPRISED", label:"Surprised / Amazed", category:"emotions", standard:"ISL", hands:2,
+    description:"Both open hands flash upward beside the temples, palms facing forward, eyes wide.",
+    translations:{ hi:"हैरान / आश्चर्य", ta:"ஆச்சரியம்", bn:"অবাক", te:"ఆశ్చర్యం", mr:"आश्चर्य", gu:"આશ્ચર્ય", kn:"ಆಶ್ಚರ್ಯ", ml:"അത്ഭുതം", ur:"حیران" },
+    synonyms:["amazed","hairan","aascharyam","atbhutham"] },
+
+  // ---------- SCHOOL & LEARNING ----------
+  { id:"isl_school", word:"SCHOOL", label:"School", category:"school", standard:"ISL", hands:2,
+    description:"Both open palms clap together twice, like clapping to get attention.",
+    translations:{ hi:"विद्यालय / स्कूल", ta:"பள்ளி", bn:"বিদ্যালয়", te:"పాఠశాల / బడి", mr:"शाळा", gu:"શાળા", kn:"ಶಾಲೆ", ml:"സ്കൂൾ", ur:"اسکول" },
+    synonyms:["vidyalaya","palli","badi","shaala"] },
+  { id:"isl_teacher", word:"TEACHER", label:"Teacher / Guru", category:"school", standard:"ISL", hands:2,
+    description:"Both hands start at the temples and move forward, spreading knowledge outward.",
+    translations:{ hi:"शिक्षक / अध्यापक", ta:"ஆசிரியர்", bn:"শিক্ষক", te:"ఉపాధ్యాయుడు / గురువు", mr:"शिक्षक", gu:"શિક્ષક", kn:"ಶಿಕ್ಷಕ", ml:"അധ്യാപകൻ", ur:"استاد" },
+    synonyms:["guru","aasiriyar","upadhyaya","shikshak"] },
+  { id:"isl_student", word:"STUDENT", label:"Student / Learner", category:"school", standard:"ISL", hands:2,
+    description:"Both hands act out learning — the open palm receives knowledge toward the head.",
+    translations:{ hi:"छात्र / विद्यार्थी", ta:"மாணவர்", bn:"ছাত্র", te:"విద్యార్థి", mr:"विद्यार्थी", gu:"વિદ્યાર્થી", kn:"ವಿದ್ಯಾರ್ಥಿ", ml:"വിദ്യാർത്ഥി", ur:"طالب علم" },
+    synonyms:["learner","vidyarthi","maanavar","chhatra"] },
+  { id:"isl_book", word:"BOOK", label:"Book", category:"school", standard:"ISL", hands:2,
+    description:"Both palms pressed together open and close like the pages of a book.",
+    translations:{ hi:"किताब / पुस्तक", ta:"புத்தகம்", bn:"বই", te:"పుస్తకం", mr:"पुस्तक", gu:"પુસ્તક", kn:"ಪುಸ್ತಕ", ml:"പുസ്തകം", ur:"کتاب" },
+    synonyms:["pustak","puthagam","pustakam","kitab"] },
+  { id:"isl_write", word:"WRITE", label:"Write", category:"school", standard:"ISL", hands:2,
+    description:"Dominant hand mimes holding a pen, scribbling across the non-dominant open palm.",
+    translations:{ hi:"लिखना", ta:"எழுது", bn:"লেখা", te:"రాయడం", mr:"लिहिणे", gu:"લખવું", kn:"ಬರೆಯುವುದು", ml:"എഴുതുക", ur:"لکھنا" },
+    synonyms:["likhna","ezhuthu","rayadam","bareyuvudu"] },
+  { id:"isl_read", word:"READ", label:"Read", category:"school", standard:"ISL", hands:2,
+    description:"Both open palms held in front while the eyes scan downward across an imaginary page.",
+    translations:{ hi:"पढ़ना", ta:"படி", bn:"পড়া", te:"చదవడం", mr:"वाचणे", gu:"વાંચવું", kn:"ಓದುವುದು", ml:"വായിക്കുക", ur:"پڑھنا" },
+    synonyms:["padhna","padi","chaduvu","vaayikkuka"] },
+  { id:"isl_learn", word:"LEARN", label:"Learn / Study", category:"school", standard:"ISL", hands:2,
+    description:"Dominant hand picks knowledge from the non-dominant palm and moves it to the forehead.",
+    translations:{ hi:"सीखना", ta:"கற்றல்", bn:"শেখা", te:"నేర్చుకోవడం", mr:"शिकणे", gu:"શીખવું", kn:"ಕಲಿ", ml:"പഠിക്കുക", ur:"سیکھنا" },
+    synonyms:["study","seekhna","katral","nerchukovadam"] },
+  { id:"isl_pen", word:"PEN", label:"Pen / Pencil", category:"school", standard:"ISL", hands:1,
+    description:"Dominant thumb and index pinch as if holding a pen with a small writing motion in air.",
+    translations:{ hi:"कलम / पेन", ta:"பேனா", bn:"কলম", te:"పెన్ / కలం", mr:"पेन", gu:"પેન", kn:"ಪೆನ್", ml:"പേന", ur:"قلم" },
+    synonyms:["pencil","kalam","pena","kalem"] },
+
+  // ---------- BASIC COMMUNICATION (MORE) ----------
+  { id:"isl_good", word:"GOOD", label:"Good", category:"basic", standard:"ISL", hands:1, isQuick:true,
+    description:"Dominant hand forms a thumbs-up, moving slightly upward.",
+    translations:{ hi:"अच्छा", ta:"நல்லது", bn:"ভাল", te:"మంచి", mr:"चांगले", gu:"સારું", kn:"ಒಳ್ಳೆಯದು", ml:"നല്ലത്", ur:"اچھا" },
+    synonyms:["achha","nallathu","manchi","nalladu","fine"] },
+  { id:"isl_bad", word:"BAD", label:"Bad", category:"basic", standard:"ISL", hands:1, isQuick:true,
+    description:"Dominant hand forms a thumbs-down, moving slightly downward.",
+    translations:{ hi:"बुरा", ta:"கெட்டது", bn:"খারাপ", te:"చెడు", mr:"वाईट", gu:"ખરાબ", kn:"ಕೆಟ್ಟದು", ml:"മോശം", ur:"برا" },
+    synonyms:["bura","kettadhu","chedu","mosam"] },
+  { id:"isl_come", word:"COME", label:"Come Here", category:"basic", standard:"ISL", hands:1,
+    description:"Dominant open hand, palm up, beckons inward toward the body.",
+    translations:{ hi:"आओ / आइए", ta:"வா", bn:"এসো", te:"రా / రండి", mr:"या", gu:"આવો", kn:"ಬಾ", ml:"വരൂ", ur:"آؤ" },
+    synonyms:["aao","vaa","esho","raa","varu"] },
+  { id:"isl_go", word:"GO", label:"Go / Leave", category:"basic", standard:"ISL", hands:1,
+    description:"Dominant open hand points or flicks outward, away from the body.",
+    translations:{ hi:"जाओ / जाइए", ta:"போ", bn:"যাও", te:"వెళ్ళు", mr:"जा", gu:"જાઓ", kn:"ಹೋಗು", ml:"പോകൂ", ur:"جاؤ" },
+    synonyms:["jao","po","jao","vellu","hogu"] },
+  { id:"isl_understand", word:"UNDERSTAND", label:"Understand", category:"basic", standard:"ISL", hands:1,
+    description:"Dominant index finger taps the temple, indicating comprehension.",
+    translations:{ hi:"समझना", ta:"புரிந்து", bn:"বোঝা", te:"అర్థం చేసుకోవడం", mr:"समजणे", gu:"સમજવું", kn:"ಅರ್ಥಮಾಡಿಕೊಳ್ಳುವುದು", ml:"മനസ്സിലാക്കുക", ur:"سمجھنا" },
+    synonyms:["samajhna","purindhu","ardham","manassilakkuka"] },
+  { id:"isl_speak", word:"SPEAK", label:"Speak / Talk", category:"basic", standard:"ISL", hands:1,
+    description:"Dominant index finger at the lips moves in small outward circles.",
+    translations:{ hi:"बोलना", ta:"பேசு", bn:"বলা", te:"మాట్లాడటం", mr:"बोलणे", gu:"બોલવું", kn:"ಮಾತನಾಡುವುದು", ml:"സംസാരിക്കുക", ur:"بولنا" },
+    synonyms:["talk","bolna","pesu","matladu","samsarikkuka"] },
+  { id:"isl_wait", word:"WAIT", label:"Wait / Hold On", category:"basic", standard:"ISL", hands:2,
+    description:"Both open hands held at waist height, palms up, bouncing slightly.",
+    translations:{ hi:"रुको / प्रतीक्षा", ta:"காத்திரு", bn:"অপেক্ষা", te:"వేచి ఉండండి", mr:"थांबा", gu:"રાહ જુઓ", kn:"ನಿರೀಕ್ಷಿಸಿ", ml:"കാത്തിരിക്കുക", ur:"انتظار" },
+    synonyms:["hold on","ruko","kaathiru","vechi undandi"] },
+  { id:"isl_again", word:"AGAIN", label:"Again / Repeat", category:"basic", standard:"ISL", hands:2,
+    description:"Dominant open hand taps the non-dominant palm once or twice.",
+    translations:{ hi:"फिर से", ta:"மீண்டும்", bn:"আবার", te:"మళ్ళీ", mr:"पुन्हा", gu:"ફરીથી", kn:"ಮತ್ತೆ", ml:"വീണ്ടും", ur:"دوبارہ" },
+    synonyms:["repeat","phir se","meendum","malli","veendum"] },
+  { id:"isl_good_morning", word:"GOOD MORNING", label:"Good Morning", category:"basic", standard:"ISL", hands:2,
+    description:"Sign GOOD, then raise an open hand at the horizon like the rising sun.",
+    translations:{ hi:"सुप्रभात", ta:"காலை வணக்கம்", bn:"সুপ্রভাত", te:"శుభోదయం", mr:"शुभ सकाळ", gu:"સુપ્રભાત", kn:"ಶುಭೋದಯ", ml:"സുപ്രഭാതം", ur:"صبح بخیر" },
+    synonyms:["suprabhat","kaalai vanakkam","shubhodayam"] },
+  { id:"isl_good_night", word:"GOOD NIGHT", label:"Good Night", category:"basic", standard:"ISL", hands:2,
+    description:"Sign GOOD, then rest both palms together beside the tilted head (sleep).",
+    translations:{ hi:"शुभ रात्रि", ta:"இனிய இரவு", bn:"শুভ রাত্রি", te:"శుభ రాత్రి", mr:"शुभ रात्री", gu:"શુભ રાત્રિ", kn:"ಶುಭ ರಾತ್ರಿ", ml:"ശുഭ രാത്രി", ur:"شب بخیر" },
+    synonyms:["shubh ratri","iniya iravu","shubha rathri"] },
+  { id:"isl_excuse_me", word:"EXCUSE ME", label:"Excuse Me / Pardon", category:"basic", standard:"ISL", hands:1,
+    description:"Dominant flat hand taps the non-dominant forearm or shoulder politely.",
+    translations:{ hi:"सुनिए / क्षमा कीजिए", ta:"மன்னிக்கவும்", bn:"মাফ করবেন", te:"క్షమించండి", mr:"माफ करा", gu:"માફ કરશો", kn:"ಕ್ಷಮಿಸಿ", ml:"ക്ഷമിക്കണം", ur:"معاف کیجیے" },
+    synonyms:["pardon","maaf kijiye","mannikkavum","kshaminchandi"] },
+
+  // ---------- PERSONAL & FAMILY ----------
+  { id:"isl_mother", word:"MOTHER", label:"Mother / Maa", category:"personal", standard:"ISL", hands:1, isQuick:true,
+    description:"Open dominant hand taps the chin with the thumb.",
+    translations:{ hi:"माँ / माता", ta:"அம்மா", bn:"মা", te:"అమ్మ / తల్లి", mr:"आई", gu:"માતા", kn:"ಅಮ್ಮ", ml:"അമ്മ", ur:"ماں" },
+    synonyms:["maa","amma","aai","mata"] },
+  { id:"isl_father", word:"FATHER", label:"Father / Papa", category:"personal", standard:"ISL", hands:1, isQuick:true,
+    description:"Open dominant hand taps the forehead with the thumb.",
+    translations:{ hi:"पिता / पापा", ta:"அப்பா", bn:"বাবা", te:"నాన్న / తండ్రి", mr:"वडील / बाबा", gu:"પિતા", kn:"ಅಪ್ಪ", ml:"അച്ഛൻ", ur:"والد / ابو" },
+    synonyms:["papa","appa","nanna","pita"] },
+  { id:"isl_friend", word:"FRIEND", label:"Friend", category:"personal", standard:"ISL", hands:2,
+    description:"Both index fingers hooked together, then hands reversed and hooked again.",
+    translations:{ hi:"दोस्त / मित्र", ta:"நண்பர்", bn:"বন্ধু", te:"స్నేహితుడు", mr:"मित्र", gu:"મિત્ર", kn:"ಸ್ನೇಹಿತ", ml:"സുഹൃത്ത്", ur:"دوست" },
+    synonyms:["dost","mitra","nanbar","snehithudu"] },
+  { id:"isl_family", word:"FAMILY", label:"Family", category:"personal", standard:"ISL", hands:2,
+    description:"Both hands form 'F' shapes and circle around each other in front of the chest.",
+    translations:{ hi:"परिवार", ta:"குடும்பம்", bn:"পরিবার", te:"కుటుంబం", mr:"कुटुंब", gu:"પરિવાર", kn:"ಕುಟುಂಬ", ml:"കുടുംബം", ur:"خاندان" },
+    synonyms:["parivar","kudumbam","kutumbam"] },
+  { id:"isl_child", word:"CHILD", label:"Child / Kid", category:"personal", standard:"ISL", hands:1,
+    description:"Flat hand held at knee or waist height, indicating a child's height.",
+    translations:{ hi:"बच्चा", ta:"குழந்தை", bn:"শিশু", te:"పిల్లవాడు", mr:"मूल", gu:"બાળક", kn:"ಮಗು", ml:"കുട്ടി", ur:"بچہ" },
+    synonyms:["kid","bachcha","kuzhandhai","pilladu","kutti"] },
+  { id:"isl_brother", word:"BROTHER", label:"Brother", category:"personal", standard:"ISL", hands:2,
+    description:"Dominant hand taps forehead with thumb, then both index fingers hook together.",
+    translations:{ hi:"भाई", ta:"சகோதரன் / அண்ணன்", bn:"ভাই", te:"సోదరుడు / అన్నయ్య", mr:"भाऊ", gu:"ભાઈ", kn:"ಸಹೋದರ / ಅಣ್ಣ", ml:"സഹോദരൻ", ur:"بھائی" },
+    synonyms:["bhai","annan","anna","sahodara"] },
+  { id:"isl_sister", word:"SISTER", label:"Sister", category:"personal", standard:"ISL", hands:2,
+    description:"Dominant hand taps chin with thumb, then both index fingers hook together.",
+    translations:{ hi:"बहन", ta:"சகோதரி / அக்கா", bn:"বোন", te:"సోదరి / అక్క", mr:"बहीण", gu:"બહેન", kn:"ಸಹೋದರಿ / ಅಕ್ಕ", ml:"സഹോദരി", ur:"بہن" },
+    synonyms:["behen","akka","sahodari","sodari"] },
+
+  // ---------- FOOD & DRINK ----------
+  { id:"isl_eat", word:"EAT", label:"Eat", category:"food_drink", standard:"ISL", hands:1, isQuick:true,
+    description:"Fingertips of the dominant hand tap the mouth repeatedly.",
+    translations:{ hi:"खाओ / खाना", ta:"சாப்பிடு", bn:"খাওয়া", te:"తినడం", mr:"खाणे", gu:"ખાવું", kn:"ತಿನ್ನುವುದು", ml:"കഴിക്കുക", ur:"کھانا" },
+    synonyms:["khao","sappidu","tinadam","kayikkuka"] },
+  { id:"isl_drink", word:"DRINK", label:"Drink", category:"food_drink", standard:"ISL", hands:1, isQuick:true,
+    description:"Dominant C-shaped hand tilts toward the mouth as if drinking from a cup.",
+    translations:{ hi:"पियो / पीना", ta:"குடி", bn:"পান করা", te:"తాగడం", mr:"पिणे", gu:"પીવું", kn:"ಕುಡಿಯುವುದು", ml:"കുടിക്കുക", ur:"پینا" },
+    synonyms:["piyo","kudi","taagadam","kudikkuka"] },
+  { id:"isl_milk", word:"MILK", label:"Milk", category:"food_drink", standard:"ISL", hands:1,
+    description:"Dominant fist squeezes repeatedly, mimicking milking a cow.",
+    translations:{ hi:"दूध", ta:"பால்", bn:"দুধ", te:"పాలు", mr:"दूध", gu:"દૂધ", kn:"ಹಾಲು", ml:"പാൽ", ur:"دودھ" },
+    synonyms:["doodh","paal","paalu","haalu"] },
+  { id:"isl_rice", word:"RICE", label:"Rice / Meal (Rice)", category:"food_drink", standard:"ISL", hands:2,
+    description:"Dominant clawed fingers scoop from the non-dominant palm toward the mouth.",
+    translations:{ hi:"चावल", ta:"அரிசி / சாதம்", bn:"ভাত / চাল", te:"అన్నం / బియ్యం", mr:"तांदूळ / भात", gu:"ચોખા", kn:"ಅಕ್ಕಿ / ಅನ್ನ", ml:"അരി / ചോറ്", ur:"چاول" },
+    synonyms:["chawal","arisi","annam","bhaat","akki"] },
+  { id:"isl_tea", word:"TEA", label:"Tea / Chai", category:"food_drink", standard:"ISL", hands:2,
+    description:"Dominant index and thumb stir in a circle above the non-dominant cupped hand.",
+    translations:{ hi:"चाय", ta:"தேநீர் / டீ", bn:"চা", te:"టీ / టీనీరు", mr:"चहा", gu:"ચા", kn:"ಚಹಾ / ಟೀ", ml:"ചായ", ur:"چائے" },
+    synonyms:["chai","chaaya","teneeru","chaha"] },
+
+  // ---------- HEALTH & MEDICAL ----------
+  { id:"isl_medicine", word:"MEDICINE", label:"Medicine / Tablet", category:"health", standard:"ISL", hands:1, isQuick:true,
+    description:"Dominant middle finger draws small circles on the non-dominant palm.",
+    translations:{ hi:"दवा", ta:"மருந்து", bn:"ওষুধ", te:"మందు", mr:"औषध", gu:"દવા", kn:"ಔಷಧ / ಮದ್ದು", ml:"മരുന്ന്", ur:"دوا" },
+    synonyms:["dawai","marundhu","mandu","marunnu","tablet"] },
+  { id:"isl_pain", word:"PAIN", label:"Pain / Hurt", category:"health", standard:"ISL", hands:2, isQuick:true,
+    description:"Both index fingers point toward each other and move in small alternating circles.",
+    translations:{ hi:"दर्द", ta:"வலி", bn:"ব্যথা", te:"నొప్పి", mr:"वेदना", gu:"દુખાવો", kn:"ನೋವು", ml:"വേദന", ur:"درد" },
+    synonyms:["hurt","dard","vali","noppi","vedana"] },
+  { id:"isl_sick", word:"SICK", label:"Sick / Ill", category:"health", standard:"ISL", hands:2,
+    description:"Dominant middle fingers touch the forehead and the stomach alternately.",
+    translations:{ hi:"बीमार", ta:"நோய்வாய்ப்பட்ட", bn:"অসুস্থ", te:"జబ్బు / అనారోగ్యం", mr:"आजारी", gu:"બીમાર", kn:"ಅನಾರೋಗ್ಯ", ml:"അസുഖം", ur:"بیمار" },
+    synonyms:["ill","bimar","jabbu","asustha","asukham"] },
+  { id:"isl_fever", word:"FEVER", label:"Fever", category:"health", standard:"ISL", hands:1,
+    description:"Dominant hand touches the forehead to check temperature, then shows heat.",
+    translations:{ hi:"बुखार", ta:"காய்ச்சல்", bn:"জ্বর", te:"జ్వరం", mr:"ताप", gu:"તાવ", kn:"ಜ್ವರ", ml:"പനി", ur:"بخار" },
+    synonyms:["bukhar","kaichal","jwaram","pani"] },
+
+  // ---------- EMERGENCY & SAFETY ----------
+  { id:"isl_fire", word:"FIRE", label:"Fire", category:"emergency", standard:"ISL", hands:2,
+    description:"Both hands wave upward alternately with wiggling fingers, showing flames.",
+    translations:{ hi:"आग", ta:"தீ", bn:"আগুন", te:"మంట / అగ్ని", mr:"आग", gu:"આગ", kn:"ಬೆಂಕಿ", ml:"തീ", ur:"آگ" },
+    synonyms:["aag","thee","agni","bengi","thii"] },
+  { id:"isl_ambulance", word:"AMBULANCE", label:"Ambulance", category:"emergency", standard:"ISL", hands:1,
+    description:"Dominant fist rotates on top of the head, showing a flashing siren light.",
+    translations:{ hi:"एम्बुलेंस", ta:"ஆம்புலன்ஸ் / அவசர ஊர்தி", bn:"অ্যাম্বুলেন্স", te:"అంబులెన్స్", mr:"रुग्णवाहिका", gu:"એમ્બ્યુલન્સ", kn:"ಆಂಬ್ಯುಲೆನ್ಸ್", ml:"ആംബുലൻസ്", ur:"ایمبولینس" },
+    synonyms:["ambulance","avasar oorthi","rugnavahika"] },
+  { id:"isl_danger", word:"DANGER", label:"Danger / Hazard", category:"emergency", standard:"ISL", hands:2,
+    description:"Dominant flat hand chops sharply toward the non-dominant forearm.",
+    translations:{ hi:"ख़तरा", ta:"ஆபத்து", bn:"বিপদ", te:"ప్రమాదం", mr:"धोका", gu:"જોખમ", kn:"ಅಪಾಯ", ml:"അപകടം", ur:"خطرہ" },
+    synonyms:["hazard","khatra","aabathu","pramadam","apakadam"] },
+
+  // ---------- QUESTIONS ----------
+  { id:"isl_who", word:"WHO", label:"Who?", category:"questions", standard:"ISL", hands:1,
+    description:"Dominant index finger draws a small circle in the air with a questioning face.",
+    translations:{ hi:"कौन?", ta:"யார்?", bn:"কে?", te:"ఎవరు?", mr:"कोण?", gu:"કોણ?", kn:"ಯಾರು?", ml:"ആര്?", ur:"کون؟" },
+    synonyms:["kaun","yaar","evaru","aaru"] },
+  { id:"isl_when", word:"WHEN", label:"When?", category:"questions", standard:"ISL", hands:1,
+    description:"Dominant index finger taps the wrist (time) with raised eyebrows.",
+    translations:{ hi:"कब?", ta:"எப்போது?", bn:"কখন?", te:"ఎప్పుడు?", mr:"कधी?", gu:"ક્યારે?", kn:"ಯಾವಾಗ?", ml:"എപ്പോൾ?", ur:"کب؟" },
+    synonyms:["kab","eppothu","eppudu","eppol"] },
+  { id:"isl_why", word:"WHY", label:"Why?", category:"questions", standard:"ISL", hands:1,
+    description:"Dominant hand touches the chin, then opens upward with a questioning face.",
+    translations:{ hi:"क्यों?", ta:"ஏன்?", bn:"কেন?", te:"ఎందుకు?", mr:"का?", gu:"શા માટે?", kn:"ಏಕೆ?", ml:"എന്തുകൊണ്ട്?", ur:"کیوں؟" },
+    synonyms:["kyon","yaen","enduku","entha kond"] },
+  { id:"isl_how", word:"HOW", label:"How?", category:"questions", standard:"ISL", hands:2,
+    description:"Both open hands held palms-up, rotating alternately.",
+    translations:{ hi:"कैसे?", ta:"எப்படி?", bn:"কীভাবে?", te:"ఎలా?", mr:"कसे?", gu:"કેવી રીતે?", kn:"ಹೇಗೆ?", ml:"എങ്ങനെ?", ur:"کیسے؟" },
+    synonyms:["kaise","eppadi","elaa","henge"] },
+
+  // ---------- PLACES & TRAVEL ----------
+  { id:"isl_market", word:"MARKET", label:"Market / Bazaar", category:"places", standard:"ISL", hands:2,
+    description:"Both hands move outward repeatedly, as if exchanging goods or money.",
+    translations:{ hi:"बाज़ार", ta:"சந்தை / கடை", bn:"বাজার", te:"మార్కెట్ / బజారు", mr:"बाजार", gu:"બજાર", kn:"ಮಾರುಕಟ್ಟೆ", ml:"മാർക്കറ്റ് / ചന്ത", ur:"بازار" },
+    synonyms:["bazaar","santhai","bajaru","chanta"] },
+  { id:"isl_bus", word:"BUS", label:"Bus", category:"places", standard:"ISL", hands:2,
+    description:"Both hands mime steering a large wheel.",
+    translations:{ hi:"बस", ta:"பேருந்து", bn:"বাস", te:"బస్సు", mr:"बस", gu:"બસ", kn:"ಬಸ್", ml:"ബസ്", ur:"بس" },
+    synonyms:["bas","perundhu","bassu"] },
+  { id:"isl_train", word:"TRAIN", label:"Train / Rail", category:"places", standard:"ISL", hands:2,
+    description:"Both fists circle forward alternately, like train wheels.",
+    translations:{ hi:"रेलगाड़ी / ट्रेन", ta:"ரயில்", bn:"ট্রেন / রেল", te:"రైలు", mr:"आगगाडी", gu:"ટ્રેન", kn:"ರೈಲು", ml:"തീവണ്ടി", ur:"ٹرین" },
+    synonyms:["rail","railgadi","rayil","aaggadi","theevandi"] },
+  { id:"isl_village", word:"VILLAGE", label:"Village", category:"places", standard:"ISL", hands:2,
+    description:"Both flat hands make small cluster motions, indicating a small settlement.",
+    translations:{ hi:"गाँव", ta:"கிராமம்", bn:"গ্রাম", te:"గ్రామం", mr:"गाव", gu:"ગામ", kn:"ಹಳ್ಳಿ / ಗ್ರಾಮ", ml:"ഗ്രാമം", ur:"گاؤں" },
+    synonyms:["gaon","gramam","grama","halli"] },
+  { id:"isl_city", word:"CITY", label:"City", category:"places", standard:"ISL", hands:2,
+    description:"Both flat hands make tall vertical motions, indicating buildings.",
+    translations:{ hi:"शहर", ta:"நகரம்", bn:"শহর", te:"నగరం", mr:"शहर", gu:"શહેર", kn:"ನಗರ", ml:"നഗരം", ur:"شہر" },
+        synonyms:["sheher","nagaram","nagara","nagaram"] },
+  { id:"isl_i_am_fine", word:"I AM FINE", label:"I am fine / All good", category:"basic", standard:"ISL", hands:1,
+    description:"Thumb and index pinched together while the other three fingers stay raised.",
+    translations:{ hi:"मैं ठीक हूँ", ta:"நான் நலமாக இருக்கிறேன்", bn:"আমি ভালো আছি", te:"నేను బాగున్నాను", mr:"मी ठीक आहे", gu:"હું મજામાં છું", kn:"ನಾನು ಆರಾಮಾಗಿದ್ದೇನೆ", ml:"എനിക്ക് സുഖമാണ്", ur:"میں ٹھیک ہوں" },
+    synonyms:["fine","all good","i'm fine"] },
+  { id:"isl_ok", word:"OK", label:"OK / Alright", category:"basic", standard:"ISL", hands:1,
+    description:"Thumb and index form a circle while the other three fingers fold down.",
+    translations:{ hi:"ठीक है", ta:"சரி", bn:"ঠিক আছে", te:"సరే", mr:"ठीक आहे", gu:"ઠીક", kn:"ಸರಿ", ml:"ശരി", ur:"ٹھیک" },
+    synonyms:["okay","sari","sare","alright"] },
+  { id:"isl_namaste", word:"NAMASTE", label:"Namaste / Greetings", category:"basic", standard:"ISL", hands:2, isQuick:true,
+    description:"Both open palms pressed together in front of the chest, fingers pointing up.",
+    translations:{ hi:"नमस्ते", ta:"வணக்கம்", bn:"নমস্কার", te:"నమస్కారం", mr:"नमस्कार", gu:"નમસ્તે", kn:"ನಮಸ್ಕಾರ", ml:"നമസ്കാരം", ur:"نمستے" },
+    synonyms:["namaskar","vanakkam","greetings","pranam"] },
+  { id:"isl_promise", word:"PROMISE", label:"Promise / Vow", category:"basic", standard:"ISL", hands:1,
+    description:"Pinky finger raised alone with the other fingers folded — the pinky promise.",
+    translations:{ hi:"वादा", ta:"வாக்குறுதி", bn:"প্রতিশ্রুতি", te:"వాగ్దానం", mr:"वचन", gu:"વચન", kn:"ವಾಗ್ದಾನ", ml:"വാഗ്ദാനം", ur:"وعدہ" },
+    synonyms:["vow","vaada","vachan","waada"] },
+  { id:"isl_call", word:"CALL", label:"Call / Phone Me", category:"basic", standard:"ISL", hands:1,
+    description:"Thumb and pinky extended, hand raised to the ear — the telephone sign.",
+    translations:{ hi:"बुलाओ / फ़ोन", ta:"அழைப்பு", bn:"ডাকো / ফোন", te:"పిలుపు / ఫోన్", mr:"हाक / फोन", gu:"બોલાવો", kn:"ಕರೆ", ml:"വിളി", ur:"پکار" },
+    synonyms:["phone","call me","shaka"] },
+  { id:"isl_rock", word:"ROCK", label:"Rock / Rock On", category:"basic", standard:"ISL", hands:1,
+    description:"Index and pinky raised, thumb holding the folded fingers — the rock-on sign.",
+    translations:{ hi:"चट्टान", ta:"பாறை", bn:"পাথর", te:"రాయి / రాక్", mr:"खडक", gu:"ખડક", kn:"ಬಂಡೆ", ml:"പാറ", ur:"چٹان" },
+    synonyms:["rock on","horns","metal"] },
+  { id:"isl_three", word:"THREE", label:"Number Three", category:"numbers", standard:"ISL", hands:1,
+    description:"Thumb, index and middle fingers raised together — the number three.",
+    translations:{ hi:"तीन", ta:"மூன்று", bn:"তিন", te:"మూడు", mr:"तीन", gu:"ત્રણ", kn:"ಮೂರು", ml:"മൂന്ന്", ur:"تین" },
+    synonyms:["3","teen","moondru","moodu"] },
+  { id:"isl_four", word:"FOUR", label:"Number Four", category:"numbers", standard:"ISL", hands:1,
+    description:"Four fingers raised with the thumb folded across the palm — the number four.",
+    translations:{ hi:"चार", ta:"நான்கு", bn:"চার", te:"నాలుగు", mr:"चार", gu:"ચાર", kn:"ನಾಲ್ಕು", ml:"നാല്", ur:"چار" },
+    synonyms:["4","char","naangu","naalugu"] }
+];
+
+ISL_EXTENDED_SIGNS.forEach(s => ISL_REGISTRY.push(s));
+
 ISL_CATEGORIES.forEach(cat => {
   if (cat.id === 'all') cat.count = ISL_REGISTRY.length;
   else if (cat.id === 'quick') cat.count = ISL_REGISTRY.filter(s => s.isQuick).length;
@@ -1613,6 +2249,44 @@ const CAMERA_GESTURES = [
   { word:"HELP",        pattern:[0,1,1,0,0] },
   { word:"WATER",       pattern:[0,1,1,1,0] },
   { word:"I LOVE YOU",  pattern:[1,1,0,0,1] },
+  { word:"THREE",       pattern:[1,1,1,0,0] },
+  { word:"FOUR",        pattern:[0,1,1,1,1] },
+  { word:"CALL",        pattern:[1,0,0,0,1] },
+  { word:"ROCK",        pattern:[0,1,0,0,1] },
+  { word:"PROMISE",     pattern:[0,0,0,0,1] },
+  { word:"L",           pattern:[1,1,0,0,0] },
+];
+
+// Every word the camera can output = finger-pattern gestures above + pinch gestures + motion + two-hand signs.
+const CAMERA_WORDS = new Set([
+  ...CAMERA_GESTURES.map(g => g.word),
+  "I AM FINE",
+  "OK",
+  "THANK YOU",
+  "SORRY",
+  "NAMASTE"
+]);
+
+// Human-friendly reference shown in the SIGN → TEXT tab.
+const CAMERA_LEGEND = [
+  { word:"HELLO",      hint:"✋ Open palm, all five fingers spread" },
+  { word:"NO",         hint:"✊ Closed fist" },
+  { word:"YES",        hint:"👍 Thumbs up" },
+  { word:"WHERE",      hint:"☝️ Index finger pointing up" },
+  { word:"HELP",       hint:"✌️ Index + middle raised (V sign)" },
+  { word:"WATER",      hint:"🖐️ Index + middle + ring raised" },
+  { word:"I LOVE YOU", hint:"🤟 Thumb + index + pinky raised" },
+  { word:"THREE",      hint:"3️⃣ Thumb + index + middle raised" },
+  { word:"FOUR",       hint:"4️⃣ Four fingers raised, thumb folded" },
+  { word:"CALL",       hint:"🤙 Thumb + pinky raised (phone)" },
+  { word:"ROCK",       hint:"🤘 Index + pinky raised" },
+  { word:"PROMISE",    hint:"🖐️ Pinky finger only" },
+  { word:"I AM FINE",  hint:"👌 Thumb + index pinched, 3 fingers up" },
+  { word:"OK",         hint:"👌 Thumb + index circle, 3 fingers folded" },
+  { word:"NAMASTE",    hint:"🙏 Both open palms together in front of chest" },
+  { word:"THANK YOU",  hint:"🖐️ Open palm, sweep it downward" },
+  { word:"SORRY",      hint:"✊ Fist circling over the chest" },
+  { word:"L",          hint:"🅻 Thumb + index out in an L shape" },
 ];
 
 let handLandmarker = null;
@@ -1647,6 +2321,11 @@ function classifyGesture(lm){
     return { word:"I AM FINE", confidence: clampConf(0.78 + margin) };
   }
 
+  if(isPinch && !middle.extended && !ring.extended && !pinky.extended){
+    const margin = (palmWidth*0.45 - pinchDist) / palmWidth;
+    return { word:"OK", confidence: clampConf(0.78 + margin) };
+  }
+
   const pattern = [thumb.extended?1:0, index.extended?1:0, middle.extended?1:0, ring.extended?1:0, pinky.extended?1:0];
   const margins = [thumb.margin, index.margin, middle.margin, ring.margin, pinky.margin];
 
@@ -1659,6 +2338,80 @@ function classifyGesture(lm){
   return null;
 }
 function clampConf(v){ return Math.max(0.6, Math.min(0.99, v)); }
+
+/* =======================================================================
+   MOTION + TWO-HAND GESTURES (THANK YOU, SORRY, NAMASTE)
+======================================================================= */
+function patternOf(lm){
+  const wrist = lm[0];
+  return [
+    isExtended(lm[4],  lm[3],  lm[17]).extended ? 1 : 0,
+    isExtended(lm[8],  lm[6],  wrist).extended ? 1 : 0,
+    isExtended(lm[12], lm[10], wrist).extended ? 1 : 0,
+    isExtended(lm[16], lm[14], wrist).extended ? 1 : 0,
+    isExtended(lm[20], lm[18], wrist).extended ? 1 : 0
+  ];
+}
+function isOpenPattern(p){ return p.every(v => v === 1); }
+function isFistPattern(p){ return p.every(v => v === 0); }
+
+function updateMotionTrail(lm){
+  const wrist = lm[0];
+  motionTrail.push({ x: wrist.x, y: wrist.y, scale: dist(lm[0], lm[9]) });
+  if(motionTrail.length > MOTION_WINDOW) motionTrail.shift();
+}
+
+function readMotion(){
+  if(motionTrail.length < MOTION_WINDOW) return { dx:0, dy:0, net:0, path:0, circular:false };
+  const a = motionTrail[0], b = motionTrail[motionTrail.length - 1];
+  const dx = b.x - a.x, dy = b.y - a.y;
+  const net = Math.hypot(dx, dy);
+  let path = 0;
+  for(let i = 1; i < motionTrail.length; i++){
+    path += Math.hypot(motionTrail[i].x - motionTrail[i-1].x, motionTrail[i].y - motionTrail[i-1].y);
+  }
+  const circular = (path > 0.12) && (net < path * 0.45);
+  return { dx, dy, net, path, circular };
+}
+
+function applyMotionToGesture(g, lm){
+  const pattern = patternOf(lm);
+  const now = performance.now();
+  if(motionLatch && now < motionLatch.until && pattern.join('') === motionLatch.pattern.join('')){
+    return { word: motionLatch.word, confidence: 0.8 };
+  }
+  const m = readMotion();
+  if(g.word === 'HELLO' && m.dy > 0.13 && m.net > 0.09){
+    motionLatch = { word:'THANK YOU', until: now + 800, pattern };
+    return { word:'THANK YOU', confidence: 0.8 };
+  }
+  if(g.word === 'NO' && m.circular){
+    motionLatch = { word:'SORRY', until: now + 800, pattern };
+    return { word:'SORRY', confidence: 0.8 };
+  }
+  return g;
+}
+
+function tipCentroid(lm){
+  let cx = 0, cy = 0;
+  [8,12,16,20].forEach(i => { cx += lm[i].x; cy += lm[i].y; });
+  return { x: cx / 4, y: cy / 4 };
+}
+
+function classifyTwoHands(hands){
+  if(!hands || hands.length < 2) return null;
+  const h1 = hands[0], h2 = hands[1];
+  const p1 = patternOf(h1), p2 = patternOf(h2);
+  if(!isOpenPattern(p1) || !isOpenPattern(p2)) return null;
+  const s1 = dist(h1[0], h1[9]) || 0.0001;
+  const s2 = dist(h2[0], h2[9]) || 0.0001;
+  const scale = Math.max(s1, s2);
+  const gap = dist(tipCentroid(h1), tipCentroid(h2));
+  if(gap < scale * 1.2){
+    return { word:'NAMASTE', confidence: 0.86 };
+  }
+  return null;
+}
 
 async function initHandLandmarker(){
   if(handLandmarker) return handLandmarker;
@@ -1739,6 +2492,10 @@ const BUFFER_SIZE = 10;
 const LOCK_THRESHOLD = 7;
 let lockedWord = null;
 
+const motionTrail = [];
+const MOTION_WINDOW = 12;
+let motionLatch = null;
+
 function camLoop(){
   if(!camReady) return;
   if(video.currentTime !== lastVideoTime && handLandmarker){
@@ -1798,7 +2555,20 @@ function drawHandsOnAllCanvases(results){
 function processGesture(results){
   const hands = results.landmarks || [];
   let g = null;
-  if(hands.length > 0) g = classifyGesture(hands[0]);
+  if(hands.length > 0){
+    const lm = hands[0];
+    updateMotionTrail(lm);
+    const two = classifyTwoHands(hands);
+    if(two){
+      g = two;
+    } else {
+      g = classifyGesture(lm);
+      if(g) g = applyMotionToGesture(g, lm);
+    }
+  } else {
+    motionTrail.length = 0;
+    motionLatch = null;
+  }
 
   gestureBuffer.push(g ? g.word : null);
   if(gestureBuffer.length > BUFFER_SIZE) gestureBuffer.shift();
@@ -1848,9 +2618,19 @@ async function updateSignTranslation(word){
 $$('[data-action="start-camera"]').forEach(b=> b.addEventListener('click', startCamera));
 
 $$('[data-action="speak-recognized"]').forEach(b=> b.addEventListener('click', ()=>{
-  const textToSpeak = currentSignTranslation || lastRecognizedGesture;
-  if(!textToSpeak) return;
-  speak(textToSpeak, currentTgtLang);
+  // Always speak the recognised ENGLISH word, never the Indic translation.
+  let textToSpeak = lastRecognizedGesture;
+
+  if(!textToSpeak || !String(textToSpeak).trim()){
+    const box = $('[data-role="recognized-raw-1"]');
+    if(box && !box.classList.contains('empty')) textToSpeak = box.textContent.trim();
+  }
+
+  if(!textToSpeak || !String(textToSpeak).trim()){
+    toast('No recognised sign to speak yet. Show a sign to the camera first.');
+    return;
+  }
+  speak(textToSpeak, 'en');
 }));
 
 $$('[data-action="clear-recognized"]').forEach(b=> b.addEventListener('click', ()=>{
@@ -1861,31 +2641,293 @@ $$('[data-action="clear-recognized"]').forEach(b=> b.addEventListener('click', (
   lastRecognizedGesture = null;
   currentSignTranslation = '';
   lockedWord = null;
+  stopSpeaking();
 }));
 
-function speak(text, langCode = 'hi'){
-  if(!('speechSynthesis' in window)){ toast('Speech synthesis is not supported in this browser.'); return; }
-  if(!text) return;
+/* -----------------------------------------------------------------------
+   TEXT-TO-SPEECH ENGINE  (fixed)
+   Issues addressed:
+   - getVoices() is empty on first call in Chrome/Edge (async voice list)
+   - cancel() immediately followed by speak() can swallow the utterance
+   - Chrome silently pauses synthesis on long text (>~200 chars)
+   - no fallback when the exact Indic voice is unavailable  -> silent button
+   - no feedback to the user when nothing can be spoken
+----------------------------------------------------------------------- */
+let _voiceCache = [];
+let _voicesReady = false;
 
-  const u = new SpeechSynthesisUtterance(text);
-  const langMeta = getLangMeta(langCode);
-  u.lang = langMeta.ttsCode || langMeta.srCode || 'hi-IN';
-  u.rate = 0.95;
+function loadVoices(){
+  if(!('speechSynthesis' in window)) return Promise.resolve([]);
+  const now = window.speechSynthesis.getVoices();
+  if(now && now.length){
+    _voiceCache = now; _voicesReady = true;
+    return Promise.resolve(_voiceCache);
+  }
+  return new Promise(resolve=>{
+    let done = false;
+    const finish = ()=>{
+      if(done) return;
+      done = true;
+      _voiceCache = window.speechSynthesis.getVoices() || [];
+      _voicesReady = _voiceCache.length > 0;
+      resolve(_voiceCache);
+    };
+    try{ window.speechSynthesis.addEventListener('voiceschanged', finish, { once:true }); }
+    catch(e){ window.speechSynthesis.onvoiceschanged = finish; }
+    // poll as a safety net (some browsers never fire voiceschanged)
+    let tries = 0;
+    const iv = setInterval(()=>{
+      tries++;
+      const v = window.speechSynthesis.getVoices();
+      if((v && v.length) || tries > 20){ clearInterval(iv); finish(); }
+    }, 150);
+  });
+}
 
-  const voices = speechSynthesis.getVoices();
-  if(voices && voices.length > 0){
-    const match = voices.find(v => v.lang.toLowerCase().startsWith(langCode.toLowerCase()) || v.lang.includes(langMeta.ttsCode));
-    if(match) u.voice = match;
+// warm up the voice list as early as possible
+if('speechSynthesis' in window){ loadVoices(); }
+
+function pickVoice(voices, langCode, ttsCode){
+  if(!voices || !voices.length) return null;
+  const tts  = (ttsCode || '').toLowerCase();          // e.g. "hi-in"
+  const base = (tts.split('-')[0] || langCode || '').toLowerCase();
+  const norm = v => (v.lang || '').toLowerCase().replace('_','-');
+
+  return (
+    voices.find(v => norm(v) === tts) ||                          // exact hi-IN
+    voices.find(v => norm(v).split('-')[0] === base) ||           // any hi-*
+    voices.find(v => norm(v) === 'en-in') ||                      // Indian English
+    voices.find(v => norm(v).split('-')[0] === 'en') ||           // any English
+    voices[0] || null
+  );
+}
+
+function chunkText(text, size = 180){
+  const parts = [];
+  // split on sentence enders (incl. Devanagari danda) keeping words intact
+  const sentences = String(text).split(/(?<=[.!?।॥\n])\s+/);
+  let buf = '';
+  for(const sRaw of sentences){
+    let s = sRaw;
+    while(s.length > size){
+      let cut = s.lastIndexOf(' ', size);
+      if(cut <= 0) cut = size;
+      parts.push(s.slice(0, cut).trim());
+      s = s.slice(cut).trim();
+    }
+    if((buf + ' ' + s).trim().length > size){
+      if(buf.trim()) parts.push(buf.trim());
+      buf = s;
+    } else {
+      buf = (buf + ' ' + s).trim();
+    }
+  }
+  if(buf.trim()) parts.push(buf.trim());
+  return parts.filter(Boolean);
+}
+
+let _keepAliveTimer = null;
+function startKeepAlive(){
+  stopKeepAlive();
+  // Chrome bug: synthesis stalls after ~15s unless nudged.
+  // NOTE: pause()/resume() can itself mute short clips, so callers only
+  // enable this for genuinely long, multi-chunk text.
+  _keepAliveTimer = setInterval(()=>{
+    const ss = window.speechSynthesis;
+    if(!ss.speaking && !ss.pending){ stopKeepAlive(); return; }
+    if(ss.paused) ss.resume();
+    else { ss.pause(); ss.resume(); }
+  }, 7000);
+}
+function stopKeepAlive(){
+  if(_keepAliveTimer){ clearInterval(_keepAliveTimer); _keepAliveTimer = null; }
+}
+
+/* -----------------------------------------------------------------------
+   SCRIPT DETECTION
+   An en-IN voice (e.g. "Microsoft Ravi") handed Devanagari/Tamil/etc. text
+   finds nothing it can pronounce and produces SILENCE with no error event.
+   So we detect the script and refuse to send non-Latin text to a Latin voice.
+----------------------------------------------------------------------- */
+const SCRIPT_RANGES = [
+  ['deva', /[\u0900-\u097F]/], ['beng', /[\u0980-\u09FF]/],
+  ['guru', /[\u0A00-\u0A7F]/], ['gujr', /[\u0A80-\u0AFF]/],
+  ['orya', /[\u0B00-\u0B7F]/], ['taml', /[\u0B80-\u0BFF]/],
+  ['telu', /[\u0C00-\u0C7F]/], ['knda', /[\u0C80-\u0CFF]/],
+  ['mlym', /[\u0D00-\u0D7F]/], ['arab', /[\u0600-\u06FF\u0750-\u077F]/],
+  ['olck', /[\u1C50-\u1C7F]/], ['mtei', /[\uABC0-\uABFF]/]
+];
+
+function detectScript(text){
+  for(const [name, re] of SCRIPT_RANGES){ if(re.test(text)) return name; }
+  return /[A-Za-z]/.test(text) ? 'latn' : 'none';
+}
+
+// Which script does a given BCP-47 language normally use?
+const LANG_SCRIPT = {
+  hi:'deva', mr:'deva', sa:'deva', mai:'deva', kok:'deva', doi:'deva',
+  brx:'deva', ne:'deva', ks:'arab', ur:'arab', sd:'arab',
+  bn:'beng', as:'beng', mni:'beng', pa:'guru', gu:'gujr', or:'orya',
+  ta:'taml', te:'telu', kn:'knda', ml:'mlym', sat:'olck', en:'latn'
+};
+
+function voiceCanRead(voice, script){
+  if(!voice) return false;
+  const vBase = (voice.lang || '').toLowerCase().split(/[-_]/)[0];
+  const vScript = LANG_SCRIPT[vBase] || 'latn';
+  if(script === 'none') return true;          // digits/punctuation only
+  return vScript === script;
+}
+
+/* -----------------------------------------------------------------------
+   NETWORK TTS FALLBACK
+   When the OS has no voice for the script, stream audio from Google's
+   public translate TTS endpoint. Requires internet; degrades gracefully.
+----------------------------------------------------------------------- */
+let _netAudio = null;
+
+function stopNetAudio(){
+  if(_netAudio){
+    try{ _netAudio.pause(); _netAudio.src = ''; }catch(e){}
+    _netAudio = null;
+  }
+}
+
+function netSpeak(text, ttsCode){
+  return new Promise((resolve, reject)=>{
+    stopNetAudio();
+    const lang = (ttsCode || 'hi-IN').split('-')[0];
+    const parts = chunkText(text, 190);
+    let i = 0;
+
+    const playNext = ()=>{
+      if(i >= parts.length){ stopNetAudio(); resolve(true); return; }
+      const q = encodeURIComponent(parts[i++]);
+      const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob`
+                + `&tl=${encodeURIComponent(lang)}&q=${q}`;
+      const a = new Audio(url);
+      _netAudio = a;
+      a.crossOrigin = 'anonymous';
+      a.onended = playNext;
+      a.onerror = ()=> reject(new Error('network-tts-failed'));
+      const pr = a.play();
+      if(pr && pr.catch) pr.catch(()=> reject(new Error('autoplay-blocked')));
+    };
+
+    playNext();
+  });
+}
+
+function stopSpeaking(){
+  stopNetAudio();
+  if(!('speechSynthesis' in window)) return;
+  stopKeepAlive();
+  try{ window.speechSynthesis.resume(); }catch(e){}
+  try{ window.speechSynthesis.cancel(); }catch(e){}
+}
+
+async function speak(text, langCode = 'hi'){
+  if(!('speechSynthesis' in window)){
+    toast('Speech synthesis is not supported in this browser.');
+    return;
+  }
+  const clean = String(text == null ? '' : text).trim();
+  if(!clean){ toast('Nothing to speak yet.'); return; }
+
+  const ss = window.speechSynthesis;
+  const langMeta = getLangMeta(langCode) || {};
+  const ttsCode = langMeta.ttsCode || langMeta.srCode || 'hi-IN';
+
+  // Stop anything currently playing, then wait a tick so Chrome does not
+  // drop the new utterance queued right after cancel().
+  stopSpeaking();
+  await new Promise(r => setTimeout(r, 120));
+
+  const voices = _voicesReady ? _voiceCache : await loadVoices();
+  const script = detectScript(clean);
+  const candidate = pickVoice(voices, langCode, ttsCode);
+
+  // A Latin-only voice (Ravi, Zira, David...) CANNOT pronounce Indic script.
+  // It returns silence with no error, so treat it as "no usable voice".
+  const usableVoice = voiceCanRead(candidate, script) ? candidate : null;
+
+  if(!usableVoice){
+    // No local voice can read this script -> go straight to network TTS.
+    try{
+      await netSpeak(clean, ttsCode);
+      return;
+    }catch(err){
+      if(err && err.message === 'autoplay-blocked'){
+        toast('Audio blocked. Click anywhere on the page, then press SPEAK again.');
+        return;
+      }
+      toast(`No ${langMeta.name || langCode} voice on this device and online speech failed. Install the ${langMeta.name || langCode} language pack, or check your connection.`);
+      return;
+    }
   }
 
-  speechSynthesis.cancel();
-  speechSynthesis.speak(u);
+  const parts = chunkText(clean);
+  let index = 0;
+  let spokeSomething = false;
+
+  const speakPart = ()=>{
+    if(index >= parts.length){ stopKeepAlive(); return; }
+    const u = new SpeechSynthesisUtterance(parts[index++]);
+    u.lang = ttsCode;
+    u.voice = usableVoice;
+    u.rate = 0.95;
+    u.pitch = 1;
+    u.volume = 1;
+    u.onstart = ()=>{ spokeSomething = true; };
+    u.onend = ()=> speakPart();
+    u.onerror = (e)=>{
+      stopKeepAlive();
+      if(e && (e.error === 'interrupted' || e.error === 'canceled')) return;
+      // Local engine failed mid-way: try the network as a last resort.
+      netSpeak(clean, ttsCode).catch(()=>{
+        toast('Could not play speech: ' + ((e && e.error) || 'unknown error'));
+      });
+    };
+    ss.speak(u);
+  };
+
+  speakPart();
+  if(parts.length > 1) startKeepAlive();   // only long text needs the nudge
+
+  // Nothing started at all -> engine silently failed. Fall back to network.
+  setTimeout(()=>{
+    if(!spokeSomething && !ss.speaking && !ss.pending){
+      stopKeepAlive();
+      ss.cancel();
+      netSpeak(clean, ttsCode).catch(err=>{
+        if(err && err.message === 'autoplay-blocked'){
+          toast('Audio blocked. Click anywhere on the page, then press SPEAK again.');
+        } else {
+          toast('Speech could not be played on this device.');
+        }
+      });
+    }
+  }, 1200);
 }
+
+// Never leave audio running when the page goes away
+window.addEventListener('beforeunload', stopSpeaking);
 
 /* =======================================================================
    ISL SIGN EXPLORER & LEARNING LIBRARY (YOUTUBE INTEGRATION)
 ======================================================================= */
 let activeCategory = 'all';
+
+function renderCameraLegend(){
+  const box = $('#cam-legend-chips');
+  if(!box) return;
+  box.innerHTML = CAMERA_LEGEND.map(c => `
+    <div class="cam-chip" title="${c.hint}">
+      <span class="cam-chip-word">${c.word}</span>
+      <span class="cam-chip-hint">${c.hint}</span>
+    </div>
+  `).join('');
+}
 
 function initSignExplorer(){
   renderCategoryPills();
@@ -1928,7 +2970,7 @@ function renderQuickSignsShelf(){
     const trans = s.translations ? (s.translations[currentTgtLang] || s.translations['hi'] || '') : '';
     return `
       <div class="quick-card" data-word="${s.word}" title="Click to learn ${s.word} on YouTube">
-        <div class="q-title">${s.word}</div>
+        <div class="q-title">${s.word}${CAMERA_WORDS.has(s.word) ? ' <span class="q-cam">📷</span>' : ''}</div>
         <div class="q-trans">${trans || s.label}</div>
         <div class="q-yt">▶ Learn video</div>
       </div>
@@ -1971,7 +3013,10 @@ function renderSignExplorerGrid(searchQuery = ''){
         <div>
           <div class="sign-card-head">
             <span class="sign-card-title">${s.word}</span>
-            <span class="badge" style="font-size:9.5px;">${s.hands === 2 ? '2-HAND' : '1-HAND'}</span>
+            <span style="display:flex; gap:5px;">
+              ${CAMERA_WORDS.has(s.word) ? '<span class="badge cam-tag">📷 CAMERA</span>' : ''}
+              <span class="badge" style="font-size:9.5px;">${s.hands === 2 ? '2-HAND' : '1-HAND'}</span>
+            </span>
           </div>
           <div class="sign-card-trans">${trans ? `${trans} (${s.label})` : s.label}</div>
           <div class="sign-card-desc">${s.description}</div>
@@ -2036,7 +3081,13 @@ function initTranslatorWorkbench(){
   if(speakBtn){
     speakBtn.onclick = ()=>{
       const text = output.textContent.trim();
-      if(!text || text === 'Translation will appear here...' || text === 'Translating...') return;
+      if(!text || output.classList.contains('empty') ||
+         text === 'Translation will appear here...' ||
+         text === 'Translating...' ||
+         text === 'Please enter text to translate.'){
+        toast('Translate something first, then press SPEAK OUTPUT.');
+        return;
+      }
       speak(text, currentTgtLang);
     };
   }
@@ -2091,11 +3142,245 @@ function initTranslatorWorkbench(){
   });
 }
 
+/* =======================================================================
+   FEEDBACK & REFERRAL MODULE
+   -----------------------------------------------------------------------
+   DELIVERY: Google Apps Script -> Google Sheet (+ optional email alert).
+   Setup instructions are in FEEDBACK-SETUP.md next to this file.
+
+   >>> PASTE YOUR APPS SCRIPT WEB APP URL BELOW <<<
+======================================================================= */
+const FEEDBACK_ENDPOINT = 'https://script.google.com/macros/s/AKfycby9qTW3yzUAUCzP4cZygryaB03QrbwU7UNacE_t_gptxum9s0DUUpK9Cs3qlbniefRe4A/exec';
+
+// Canonical public URL used for referral links (keep the trailing slash).
+const SHARE_URL   = 'https://sign-bridge-plum-eta.vercel.app/';
+
+const STAR_WORDS = ['', 'Very poor', 'Poor', 'Okay', 'Good', 'Excellent'];
+
+function initFeedback(){
+  const panel = $('#tab-feedback');
+  if(!panel) return;
+
+  let rating = 0;
+  const starBtns = $$('#fb-stars .star');
+  const starLabel = $('#fb-star-label');
+  const starErr = $('#fb-star-err');
+
+  /* ---------- star rating ---------- */
+  function paintStars(n){
+    starBtns.forEach(b=>{
+      const on = Number(b.dataset.v) <= n;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-checked', Number(b.dataset.v) === n ? 'true' : 'false');
+    });
+    starLabel.textContent = n ? `${n}/5 — ${STAR_WORDS[n]}` : '';
+  }
+  starBtns.forEach(b=>{
+    const v = Number(b.dataset.v);
+    b.addEventListener('mouseenter', ()=> paintStars(v));
+    b.addEventListener('focus',      ()=> paintStars(v));
+    b.addEventListener('click', ()=>{
+      rating = v;
+      paintStars(rating);
+      $('#fb-stars').closest('.fb-field').classList.remove('invalid');
+    });
+    // keyboard support
+    b.addEventListener('keydown', (e)=>{
+      if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+        e.preventDefault();
+        const next = Math.min(5, Math.max(1, v + (e.key === 'ArrowRight' ? 1 : -1)));
+        starBtns[next-1].focus();
+      }
+    });
+  });
+  $('#fb-stars').addEventListener('mouseleave', ()=> paintStars(rating));
+
+  /* ---------- feature chips ---------- */
+  $$('#fb-used .fb-chip').forEach(c=>{
+    c.addEventListener('click', ()=> c.classList.toggle('on'));
+  });
+
+  /* ---------- char counter ---------- */
+  const msg = $('#fb-msg'), count = $('#fb-count');
+  msg.addEventListener('input', ()=> count.textContent = msg.value.length);
+
+  /* ---------- local stats ---------- */
+  const store = {
+    get(k, d){ try{ return JSON.parse(localStorage.getItem('sb_fb_'+k)) ?? d; }catch(e){ return d; } },
+    set(k, v){ try{ localStorage.setItem('sb_fb_'+k, JSON.stringify(v)); }catch(e){} }
+  };
+  function paintStats(){
+    const r = store.get('rating', 0);
+    $('#fb-stat-rating').textContent = r ? r + '★' : '—';
+  }
+  paintStats();
+
+  /* ---------- referral link ---------- */
+  // Always use the canonical live URL so shared links are clean and work
+  // from anywhere - never localhost, never a "%20" filename path.
+  const base = SHARE_URL.replace(/\?.*$/, '').replace(/\/*$/, '/');
+
+  let refId = store.get('refid', null);
+  if(!refId){
+    refId = Math.random().toString(36).slice(2, 8).toUpperCase();
+    store.set('refid', refId);
+  }
+  const refLink = `${base}${base.includes('?') ? '&' : '?'}ref=${refId}`;
+  $('#fb-ref-link').value = refLink;
+
+  // Copy-to-clipboard, with a select() fallback for older browsers
+  // and for non-secure origins where the Clipboard API is unavailable.
+  $('#fb-copy-link').onclick = ()=>{
+    const done = ()=> toast('Link copied — thank you for sharing! 🎉');
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(refLink).then(done).catch(legacyCopy);
+    } else {
+      legacyCopy();
+    }
+    function legacyCopy(){
+      const el = $('#fb-ref-link');
+      el.removeAttribute('readonly');
+      el.select();
+      el.setSelectionRange(0, 99999);
+      let ok = false;
+      try{ ok = document.execCommand('copy'); }catch(e){}
+      el.setAttribute('readonly', '');
+      ok ? done() : toast('Press Ctrl+C (or long-press) to copy the link.');
+    }
+  };
+
+  /* ---------- submission ---------- */
+  if(!FEEDBACK_ENDPOINT){
+    const w = $('#fb-setup-warn');
+    if(w) w.style.display = 'block';
+  }
+
+  const submitBtn = $('#fb-submit');
+
+  function queueOffline(payload){
+    const q = store.get('queue', []);
+    q.push(payload);
+    store.set('queue', q.slice(-30));
+  }
+
+  async function sendPayload(payload){
+    // Apps Script requires a "simple request" to avoid a CORS preflight,
+    // so we send text/plain and parse JSON on the server side.
+    const res = await fetch(FEEDBACK_ENDPOINT, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json().catch(()=> ({ result:'ok' }));
+  }
+
+  submitBtn.onclick = async ()=>{
+    let ok = true;
+
+    if(!rating){
+      $('#fb-stars').closest('.fb-field').classList.add('invalid');
+      ok = false;
+    }
+    const emailEl = $('#fb-email');
+    const emailVal = emailEl.value.trim();
+    const emailField = $('#fb-email-field');
+    if(emailVal && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailVal)){
+      emailField.classList.add('invalid');
+      ok = false;
+    } else {
+      emailField.classList.remove('invalid');
+    }
+    if(!ok){ toast('Please fix the highlighted fields.'); return; }
+
+    const payload = {
+      rating: rating,
+      ratingText: STAR_WORDS[rating],
+      features: $$('#fb-used .fb-chip.on').map(c=> c.dataset.v).join(', '),
+      message: msg.value.trim(),
+      name: $('#fb-name').value.trim(),
+      email: emailVal,
+      referralId: refId,
+      referredBy: new URLSearchParams(location.search).get('ref') || '',
+      page: location.href,
+      userAgent: navigator.userAgent,
+      language: (typeof currentTgtLang !== 'undefined') ? currentTgtLang : '',
+      submittedAt: new Date().toISOString()
+    };
+
+    submitBtn.disabled = true;
+    const original = submitBtn.textContent;
+    submitBtn.textContent = 'SENDING…';
+
+    try{
+      if(!FEEDBACK_ENDPOINT) throw new Error('not-configured');
+      await sendPayload(payload);
+
+      store.set('rating', rating);
+      paintStats();
+      $('#fb-form-view').style.display = 'none';
+      $('#fb-success-view').classList.add('show');
+      toast('Feedback sent — thank you! 🙏');
+    }catch(err){
+      queueOffline(payload);
+      store.set('rating', rating);
+      paintStats();
+
+      if(err.message === 'not-configured'){
+        toast('Saved locally — feedback endpoint is not configured yet.');
+      } else {
+        toast('Could not reach the server. Your feedback was saved and will retry.');
+      }
+      $('#fb-form-view').style.display = 'none';
+      $('#fb-success-view').classList.add('show');
+      $('#fb-success-msg').textContent =
+        'Your response was saved on this device. It will be delivered automatically the next time you open SignBridge with a connection.';
+    }finally{
+      submitBtn.disabled = false;
+      submitBtn.textContent = original;
+    }
+  };
+
+  function resetForm(){
+    rating = 0; paintStars(0);
+    msg.value = ''; count.textContent = '0';
+    $('#fb-name').value = ''; $('#fb-email').value = '';
+    $$('#fb-used .fb-chip').forEach(c=> c.classList.remove('on'));
+    $$('#tab-feedback .fb-field').forEach(f=> f.classList.remove('invalid'));
+  }
+
+  $('#fb-reset').onclick = ()=>{ resetForm(); toast('Form cleared.'); };
+  $('#fb-another').onclick = ()=>{
+    resetForm();
+    $('#fb-success-view').classList.remove('show');
+    $('#fb-form-view').style.display = 'block';
+  };
+
+  /* ---------- retry queued submissions ---------- */
+  (async function flushQueue(){
+    if(!FEEDBACK_ENDPOINT) return;
+    const q = store.get('queue', []);
+    if(!q.length) return;
+    const remaining = [];
+    for(const item of q){
+      try{ await sendPayload(item); }
+      catch(e){ remaining.push(item); }
+    }
+    store.set('queue', remaining);
+    if(remaining.length < q.length){
+      toast(`Delivered ${q.length - remaining.length} saved feedback response(s).`);
+    }
+  })();
+}
+
 // Immediate synchronous bootstrap
 function boot(){
   initLanguageSelectors();
   initSignExplorer();
   initTranslatorWorkbench();
+  renderCameraLegend();
+  initFeedback();
 }
 
 if(document.readyState === 'loading'){
@@ -2104,5 +3389,187 @@ if(document.readyState === 'loading'){
   boot();
 }
 </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a345bc60dc0cb540',t:'MTc4ODI4MTAyNg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><!--
+================================================================================
+  SIGNBRIDGE — FEEDBACK SETUP  (everything you need is in this one file)
+================================================================================
+  Feedback goes to a Google Sheet you own (emailidhant@gmail.com).
+  Free, no server, works on Vercel static hosting.
+
+  WHERE DO I READ REVIEWS?  -> The Google Sheet. It is the real inbox and it
+  records every single response. Email is only an optional heads-up, and it is
+  set to 'low' by default (see EMAIL_MODE below) so Gmail does not fill up.
+
+  ONE-TIME SETUP (about 5 minutes)
+  --------------------------------------------------------------------------
+  1. Go to https://sheets.new  and name it "SignBridge Feedback". Leave it
+     empty; the header row is created automatically.
+
+  2. In that sheet: Extensions -> Apps Script. Delete everything in Code.gs
+     and paste in the ENTIRE script from the block at the bottom of this
+     comment (between the ===== APPS SCRIPT ===== markers). Click Save.
+
+  3. Deploy -> New deployment -> click the gear -> Web app.
+        Execute as:      Me
+        Who has access:  Anyone     <-- MUST be "Anyone" or you get CORS errors
+     Click Deploy, then authorise (Advanced -> Go to project -> Allow).
+     The "unverified app" warning is expected; it is your own script.
+
+  4. Copy the Web app URL (looks like
+     https://script.google.com/macros/s/AKfycb....../exec )
+     and paste it into FEEDBACK_ENDPOINT in the JavaScript below.
+     Search this file for:  const FEEDBACK_ENDPOINT
+
+  5. Done. The orange "Setup needed" banner on the Feedback tab disappears
+     once the endpoint is filled in - that is your confirmation it worked.
+
+  CONTROLLING EMAIL VOLUME
+  --------------------------------------------------------------------------
+  In the Apps Script below, set EMAIL_MODE:
+     'all'  - one email per submission (fine while testing / low traffic)
+     'low'  - DEFAULT. Only 1-2 star ratings, or people who left an email
+              address wanting a reply. Everything else is silent.
+     'none' - never email; read the Sheet only.
+  The Sheet always logs 100% of responses no matter which mode you choose.
+
+  TIP: instead of email, open the Sheet and use Tools -> Notification rules
+  to get a single daily digest. That is usually the nicest balance.
+
+  TESTING LOCALLY (before you deploy)
+  --------------------------------------------------------------------------
+  You do NOT need Vercel to test. Just double-click this .html file to open it
+  in your browser, go to the Feedback tab, and submit. As long as
+  FEEDBACK_ENDPOINT is filled in, the row lands in your Google Sheet within a
+  few seconds - it works the same from your desktop as from the live site.
+
+  IMPORTANT: if you ever EDIT the Apps Script, you must deploy a NEW VERSION
+  (Deploy -> Manage deployments -> pencil icon -> Version: New version).
+  Simply saving does NOT update the live endpoint. This catches everyone once.
+
+  TROUBLESHOOTING (open DevTools with F12 -> Console)
+  --------------------------------------------------------------------------
+    "Failed to fetch" / CORS ..... Access is not set to "Anyone". Redeploy.
+    401 or 403 ................... Authorisation not completed. Redo step 3.
+    Orange banner still showing .. FEEDBACK_ENDPOINT is still empty. Step 4.
+
+  If delivery ever fails, the response is saved in the visitor's browser and
+  retried automatically on their next visit, so nothing is lost.
+
+================================================================================
+  ===== APPS SCRIPT — paste everything below into Code.gs =====
+
+const NOTIFY_EMAIL = 'emailidhant@gmail.com';
+
+// How much email do you want?
+//   'all'  = one email per submission
+//   'low'  = only 1-2 star ratings, or anyone who left their email for a reply
+//   'none' = no email at all; just read the Google Sheet
+// The Sheet always records EVERY response regardless of this setting.
+const EMAIL_MODE = 'low';
+
+const HEADERS = [
+  'Timestamp', 'Rating', 'Rating Text', 'Features Used', 'Message',
+  'Name', 'Email', 'Referral ID', 'Referred By', 'Page', 'User Agent',
+  'UI Language', 'Submitted At (client)'
+];
+
+function doPost(e) {
+  try {
+    var data = {};
+    if (e && e.postData && e.postData.contents) {
+      data = JSON.parse(e.postData.contents);
+    } else if (e && e.parameter) {
+      data = e.parameter;
+    }
+
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(HEADERS);
+      sheet.getRange(1, 1, 1, HEADERS.length)
+           .setFontWeight('bold')
+           .setBackground('#0f1315')
+           .setFontColor('#5eead4');
+      sheet.setFrozenRows(1);
+    }
+
+    sheet.appendRow([
+      new Date(),
+      data.rating || '',
+      data.ratingText || '',
+      data.features || '',
+      data.message || '',
+      data.name || '',
+      data.email || '',
+      data.referralId || '',
+      data.referredBy || '',
+      data.page || '',
+      data.userAgent || '',
+      data.language || '',
+      data.submittedAt || ''
+    ]);
+
+    if (NOTIFY_EMAIL && shouldEmail_(data)) { sendAlert_(data); }
+
+    return json_({ result: 'success' });
+  } catch (err) {
+    console.error(err);
+    return json_({ result: 'error', message: String(err) });
+  }
+}
+
+function doGet() {
+  return json_({ result: 'ok', message: 'SignBridge feedback endpoint is live.' });
+}
+
+function shouldEmail_(data) {
+  if (EMAIL_MODE === 'none') { return false; }
+  if (EMAIL_MODE === 'all')  { return true; }
+  // 'low': only things that likely need your attention
+  var r = Number(data.rating) || 0;
+  var wantsReply = data.email && data.email.indexOf('@') > -1;
+  return (r > 0 && r <= 2) || wantsReply;
+}
+
+function sendAlert_(data) {
+  try {
+    var stars = '';
+    var r = Number(data.rating) || 0;
+    for (var i = 0; i < 5; i++) { stars += (i < r) ? '*' : '-'; }
+
+    var body =
+      'New SignBridge feedback\n' +
+      '-----------------------------------\n' +
+      'Rating:      ' + stars + '  (' + r + '/5 - ' + (data.ratingText || '') + ')\n' +
+      'Features:    ' + (data.features || '-') + '\n' +
+      'Name:        ' + (data.name || '-') + '\n' +
+      'Email:       ' + (data.email || '-') + '\n' +
+      'Referral ID: ' + (data.referralId || '-') + '\n' +
+      'Referred by: ' + (data.referredBy || '-') + '\n' +
+      '\nMessage:\n' + (data.message || '(no message left)') + '\n' +
+      '\n-----------------------------------\n' +
+      'Page: ' + (data.page || '') + '\n' +
+      'Device: ' + (data.userAgent || '') + '\n';
+
+    MailApp.sendEmail({
+      to: NOTIFY_EMAIL,
+      subject: 'SignBridge feedback: ' + r + '/5 ' + (data.name ? 'from ' + data.name : ''),
+      body: body,
+      replyTo: (data.email && data.email.indexOf('@') > -1) ? data.email : undefined
+    });
+  } catch (err) {
+    console.error('Mail failed: ' + err);
+  }
+}
+
+function json_(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+  ===== END APPS SCRIPT =====
+================================================================================
+-->
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a34e20ca9bfde727',t:'MTc4ODM2OTAyNQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

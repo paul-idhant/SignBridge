@@ -17,6 +17,7 @@ export function Hero() {
       aria-labelledby="hero-heading"
       className="dot-grid relative overflow-hidden"
     >
+
       {/* Vignette to blend the sensor grid into the background */}
       <div
         aria-hidden="true"

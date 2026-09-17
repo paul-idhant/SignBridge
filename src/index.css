@@ -175,6 +175,31 @@ body {
   }
 }
 
+/* ScrollExpand stage — sticky fullscreen viewport for the expanding frame */
+.se-stage {
+  height: 100vh;
+}
+@supports (height: 100dvh) {
+  .se-stage {
+    height: 100dvh;
+  }
+}
+
+/* ScrollExpand — gentle first-paint entrance onto the black stage */
+.se-enter {
+  animation: se-enter 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes se-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 /* ─── Reduced motion: keep everything calm ─────────────────── */
 @media (prefers-reduced-motion: reduce) {
   html {

@@ -3,4 +3,5 @@ https://sign-bridge-plum-eta.vercel.app/
 Click on the link above and run the vercel as its the ready version
 
 CREDITS
-FELINA,CLUADE
+Idhant-founder
+Felina-cofounder

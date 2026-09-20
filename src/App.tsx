@@ -4,6 +4,7 @@ import LightRays from "./components/LightRays";
 import { Navbar } from "./components/Navbar";
 import { ScrollExpand } from "./components/ScrollExpand";
 import { Hero } from "./components/Hero";
+import { Watch } from "./components/Watch";
 import { About } from "./components/About";
 import { HowItWorks } from "./components/HowItWorks";
 import { Technology } from "./components/Technology";
@@ -100,6 +101,9 @@ export default function App() {
         </ScrollExpand>
 
         <Hero />
+
+        {/* Advertisement / demo film — degrades to a poster until published */}
+        <Watch />
 
         <About />
         <HowItWorks />

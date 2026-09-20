@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="public/hero.jpg" alt="Two hands mid-sign, traced with cyan light" width="100%" />
+
 # SignBridge
 
 ### Bridging Communication. Breaking Barriers.
@@ -8,11 +10,6 @@ An assistive communication platform that connects **Indian Sign Language (ISL)**
 **speech** through accessible, AI-powered browser technology.
 
 `Sign → Text` &nbsp;·&nbsp; `Speech → Sign` &nbsp;·&nbsp; `Live Conversation`
-
-[**Live demo**](https://sign-bridge-plum-eta.vercel.app/) ·
-[**Launch the app**](https://sign-bridge-plum-eta.vercel.app/app/app.html) ·
-[**Watch the film**](https://sign-bridge-plum-eta.vercel.app/#watch) ·
-[**Report an issue**](https://github.com/paul-idhant/SignBridge/issues)
 
 <br />
 
@@ -23,23 +20,39 @@ An assistive communication platform that connects **Indian Sign Language (ISL)**
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](#technology-stack)
 [![MediaPipe](https://img.shields.io/badge/vision-MediaPipe_Hand_Landmarker-00E5FF?style=for-the-badge)](#how-it-works)
 
+<br />
+
+[**Live demo**](https://sign-bridge-plum-eta.vercel.app/) ·
+[**Launch the app**](https://sign-bridge-plum-eta.vercel.app/app/app.html) ·
+[**Report an issue**](https://github.com/paul-idhant/SignBridge/issues) ·
+[**Contact**](#contact)
+
 </div>
 
----
+<br />
 
-## ▶ Watch the film
+<details open>
+<summary><strong>Contents</strong></summary>
 
-<p align="center">
-  <a href="https://sign-bridge-plum-eta.vercel.app/#watch" title="Watch the SignBridge advertisement">
-    <img src="docs/assets/signbridge-ad-thumb.jpg" alt="SignBridge advertisement film — click to watch" width="760" />
-  </a>
-  <br />
-  <sub>The SignBridge advertisement — <a href="https://sign-bridge-plum-eta.vercel.app/#watch">watch it on the site</a> or <a href="public/media/">open the source file on GitHub</a>. GitHub does not play video inside READMEs, so this card links through to a real player.</sub>
-</p>
+- [What is SignBridge?](#what-is-signbridge)
+- [Advertisement](#-advertisement)
+- [Modules at a glance](#modules-at-a-glance)
+- [Recognised signs](#recognised-signs)
+- [Language support](#language-support)
+- [How it works](#how-it-works)
+- [Technology stack](#technology-stack)
+- [Getting started](#getting-started)
+- [Project structure](#project-structure)
+- [Browser support](#browser-support)
+- [Privacy & accessibility](#privacy--accessibility)
+- [Current status & roadmap](#current-status--roadmap)
+- [Contributing](#contributing)
+- [Team](#team)
+- [Acknowledgements](#acknowledgements)
+- [Contact](#contact)
+- [License](#license)
 
-The film ships as a web-optimised MP4 at [`public/media/signbridge-ad.mp4`](public/media/signbridge-ad.mp4).
-See [Preparing the advertisement video](#preparing-the-advertisement-video) to (re)generate it,
-its poster frame and this thumbnail from any source clip.
+</details>
 
 ---
 
@@ -67,6 +80,17 @@ SignBridge carries the meaning across.
 Everything runs **in the browser** — no install, no accounts, no server round-trip
 for recognition. The camera feed is never shown; only a rendered skeleton of the
 detected hand landmarks appears on screen.
+
+---
+
+## 🎬 Advertisement
+
+The SignBridge advertisement film is being finalised. Once published it will be
+embedded here and on the landing page. In the meantime, the fastest way to see the
+product is the live demo:
+
+> **▶ [sign-bridge-plum-eta.vercel.app](https://sign-bridge-plum-eta.vercel.app/)** —
+> open the app, allow the camera, and try the two-way loop yourself.
 
 ---
 
@@ -223,36 +247,7 @@ deployed site both live at
 
 > **Deploying:** push to GitHub and Vercel builds automatically; `vercel.json`
 > rewrites every route to `index.html`. The build inlines all JS/CSS into one
-> HTML file, and `public/` (app, media, images) is copied alongside it.
-
----
-
-## Preparing the advertisement video
-
-The film, its poster frame and the README thumbnail are generated from one source
-clip — whatever format you already have (MOV, AVI, MKV, WebM, MP4…):
-
-```bash
-./scripts/prepare-video.sh "/path/to/your advertisement.mov"
-```
-
-That single command:
-
-1. transcodes to a portable, streamable **H.264 + AAC MP4** (`public/media/signbridge-ad.mp4`),
-   capped at 1920 px wide / 30 fps, `+faststart` so it plays before it finishes downloading;
-2. extracts a representative frame and composes the graded **poster** used by the
-   `<video>` element (`public/media/signbridge-ad-poster.jpg`);
-3. composes the branded **click-to-play thumbnail** for this README
-   (`docs/assets/signbridge-ad-thumb.jpg`);
-4. warns if the result exceeds GitHub's 50 MB warning / 100 MB hard limits.
-
-Tune quality or width with environment variables, e.g.
-`CRF=26 MAX_WIDTH=1280 ./scripts/prepare-video.sh input.mov`.
-The only requirements are `ffmpeg` (or `pip install --user imageio-ffmpeg`) and
-`pip install --user pillow` for the stills.
-
-The landing page's *Watch the film* section picks the video up automatically and,
-until the file exists, shows the poster with a graceful note instead of a broken player.
+> HTML file, and `public/` (app and images) is copied alongside it.
 
 ---
 
@@ -262,19 +257,14 @@ until the file exists, shows the poster with a graceful note instead of a broken
 SignBridge/
 ├── public/
 │   ├── app/app.html              # the product — single-file ISL ⇄ speech app
-│   ├── media/                    # advertisement film + poster (generated)
 │   ├── team/                     # founder portraits
 │   └── hero.jpg                  # landing hero photography
 ├── src/
-│   ├── components/               # landing sections (Hero, Watch, About, …, Team)
+│   ├── components/               # landing sections (Hero, About, …, Team)
 │   ├── lib/                      # constants + hand-geometry data
 │   ├── utils/                    # class-name helper
 │   ├── App.tsx                   # page composition
 │   └── index.css                 # theme tokens (change a colour once, site follows)
-├── docs/assets/                  # README media (generated thumbnails)
-├── scripts/
-│   ├── prepare-video.sh          # any clip → web MP4 + poster + thumbnail
-│   └── make_poster.py            # branded still composer (Pillow)
 ├── index.html                    # landing shell + SEO/OG meta
 ├── vercel.json                   # SPA rewrites
 └── vite.config.ts                # React + Tailwind + single-file build

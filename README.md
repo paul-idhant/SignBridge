@@ -35,7 +35,7 @@ An assistive communication platform that connects **Indian Sign Language (ISL)**
 <summary><strong>Contents</strong></summary>
 
 - [What is SignBridge?](#what-is-signbridge)
-- [Advertisement](#-advertisement)
+- [Advertisement](#advertisement)
 - [Modules at a glance](#modules-at-a-glance)
 - [Recognised signs](#recognised-signs)
 - [Language support](#language-support)
@@ -83,9 +83,9 @@ detected hand landmarks appears on screen.
 
 ---
 
-## 🎬 Advertisement
+## Advertisement
 
-The SignBridge advertisement film is being finalised. Once published it will be
+🎬 The SignBridge advertisement film is being finalised. Once published it will be
 embedded here and on the landing page. In the meantime, the fastest way to see the
 product is the live demo:
 
